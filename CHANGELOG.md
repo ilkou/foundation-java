@@ -1,3 +1,8 @@
+## 1.9.18 (Mars 02, 2022)  
+
+* Default jackson property naming strategy restored
+* foundation-gradle-plugin added
+
 ## 1.9.17 (Mars 02, 2022)  
 
 * Fix tenant propagation
