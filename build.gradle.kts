@@ -13,20 +13,19 @@ buildscript {
         }
     }
     dependencies {
-        classpath("io.soffa.gradle:gradle-plugin:2.2.5")
+        classpath("io.soffa.foundation:foundation-gradle-plugin:1.0.0")
     }
 }
 
 
-apply(plugin = "soffa.sonatype-legacy-publish")
+apply(plugin = "foundation.sonatype-legacy-publish")
 
 allprojects {
     repositories {
         mavenCentral()
     }
-    apply(plugin = "soffa.java8")
+    apply(plugin = "foundation.java8")
 }
-
 
 tasks.withType<Test>().configureEach {
     maxParallelForks = (Runtime.getRuntime().availableProcessors() / 2).takeIf { it > 0 } ?: 1

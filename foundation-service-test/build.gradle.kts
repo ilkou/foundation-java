@@ -1,7 +1,7 @@
 plugins {
-    id("soffa.java8")
-    id("soffa.springboot.library")
-    id("soffa.maven-publish")
+    id("foundation.java8")
+    id("foundation.springboot.library")
+    id("foundation.maven-publish")
 }
 
 dependencies {
