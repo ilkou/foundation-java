@@ -22,4 +22,5 @@ public interface ObjectStorageClient {
     String getUploadUrl(String bucket, String objectName, long expiresInMinutes);
 
     String getUploadUrl(String objectName, long expiresInMinutes);
+
 }

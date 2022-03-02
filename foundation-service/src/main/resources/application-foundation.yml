@@ -10,9 +10,12 @@ logging.level.foundation: ${PLATFORM_LOG_LEVEL:INFO}
 logging.level.app: ${LOG_LEVEL:INFO}
 logging.level.service: ${LOG_LEVEL:INFO}
 
+#
+
 spring.jackson:
   default-property-inclusion: non_empty
-  property-naming-strategy: com.fasterxml.jackson.databind.PropertyNamingStrategy.SnakeCaseStrategy
+  #property-naming-strategy: com.fasterxml.jackson.databind.PropertyNamingStrategy.SnakeCaseStrategy
+  #com.fasterxml.jackson.databind.PropertyNamingStrategy.LowerCamelCaseStrategy
   serialization:
     write-dates-as-timestamps: true
 
