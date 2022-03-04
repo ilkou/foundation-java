@@ -3,7 +3,6 @@ plugins {
 }
 
 ext["caffeine.version"] = "2.9.3"
-// "https://oss.sonatype.org/content/groups/public"
 
 buildscript {
     repositories {
