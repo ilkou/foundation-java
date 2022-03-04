@@ -6,17 +6,17 @@ import lombok.Getter;
 import java.util.Map;
 
 @Getter
-public class ObjectModel {
+public class ObjMeta {
 
-    @JsonProperty("_object")
-    private String object;
+    @JsonProperty("object")
+    private transient String object;
 
     private Map<String, Object> metadata;
 
-    private ObjectModel() {
+    private ObjMeta() {
     }
 
-    public ObjectModel(String object) {
+    public ObjMeta(String object) {
         this.object = object;
     }
 

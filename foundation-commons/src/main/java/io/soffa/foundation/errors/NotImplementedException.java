@@ -11,4 +11,9 @@ public class NotImplementedException extends TechnicalException {
     public NotImplementedException(String messsage, Object... args) {
         super(messsage, args);
     }
+
+    public NotImplementedException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
 }

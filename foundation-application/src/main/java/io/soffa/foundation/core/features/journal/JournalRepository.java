@@ -1,10 +1,6 @@
 package io.soffa.foundation.core.features.journal;
 
-public interface JournalRepository {
+import io.soffa.foundation.core.data.EntityRepository;
 
-    long count();
-
-    void save(Journal record);
-
-
+public interface JournalRepository extends EntityRepository<Journal> {
 }

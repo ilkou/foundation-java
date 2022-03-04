@@ -12,4 +12,7 @@ public class InvalidAuthException extends FunctionalException {
         super(cause, message, args);
     }
 
+    public InvalidAuthException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }

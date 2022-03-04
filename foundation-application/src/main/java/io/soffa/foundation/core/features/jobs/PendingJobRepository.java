@@ -1,15 +1,15 @@
 package io.soffa.foundation.core.features.jobs;
 
+import io.soffa.foundation.core.data.EntityRepository;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
-public interface PendingJobRepository {
+import java.util.function.Function;
 
-    long count();
+public interface PendingJobRepository  extends EntityRepository<PendingJob> {
 
-    void save(PendingJob record);
 
     default void create(@NonNull String operation, @NonNull String subject) {
-        save(PendingJob.builder().operation(operation).subject(subject).build());
+        insert(PendingJob.builder().operation(operation).subject(subject).build());
     }
 
     boolean isPending(String operation, String subject);
@@ -18,6 +18,6 @@ public interface PendingJobRepository {
 
     boolean consume(String operation, String subbjet);
 
-
+    void consume(String operation, Function<PendingJob, Boolean> consumer);
 
 }

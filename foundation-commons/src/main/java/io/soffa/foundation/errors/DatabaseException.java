@@ -11,4 +11,12 @@ public class DatabaseException extends TechnicalException {
     public DatabaseException(String messsage, Object... args) {
         super(messsage, args);
     }
+
+    public DatabaseException(String messsage, Exception e) {
+        super(messsage, e);
+    }
+
+    public DatabaseException(Throwable cause) {
+        super(cause);
+    }
 }

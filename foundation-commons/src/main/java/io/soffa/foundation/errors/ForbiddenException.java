@@ -11,4 +11,8 @@ public class ForbiddenException extends FunctionalException {
     public ForbiddenException(Throwable cause, String message, Object... args) {
         super(cause, message, args);
     }
+
+    public ForbiddenException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }

@@ -5,6 +5,7 @@ plugins {
 }
 
 dependencies {
+    api(project(":foundation-api"))
     api(project(":foundation-application"))
 
     api("org.springframework.boot:spring-boot-starter-data-jpa") {

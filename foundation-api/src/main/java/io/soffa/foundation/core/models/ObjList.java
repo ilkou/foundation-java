@@ -8,22 +8,22 @@ import java.util.Map;
 
 @Getter
 @JsonModel
-public class ObjectList<T extends ObjectModel> extends ObjectModel {
+public class ObjList<T> extends ObjMeta {
 
     private final List<T> data;
     private final Boolean hasMore;
 
-    public ObjectList(List<T> data) {
+    public ObjList(List<T> data) {
         this(data, (Boolean) null);
     }
 
-    public ObjectList(List<T> data, Boolean hasMore) {
+    public ObjList(List<T> data, Boolean hasMore) {
         super("list");
         this.data = data;
         this.hasMore = hasMore;
     }
 
-    public ObjectList(List<T> data, Map<String, Object> metadata) {
+    public ObjList(List<T> data, Map<String, Object> metadata) {
         this(data, (Boolean) null);
         super.setMetadata(metadata);
     }

@@ -1,17 +1,40 @@
 package com.company.app.gateways;
 
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.soffa.foundation.service.data.jpa.MapConverter;
+import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Date;
+import java.util.Map;
+
 
 @Entity
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode
 @Table(name = "messages")
+@NoArgsConstructor
+@AllArgsConstructor
 public class MessageEntity {
 
-    @Id
-    private String id;
+    @EmbeddedId
+    private MessageId id;
+    private String requestId;
+    private MessageStatus status;
+    @Transient
+    private String value;
+    private String report;
+    private long counter;
+    @Convert(converter = MapConverter.class)
+    @JsonIgnore
+    private Map<String,Object> metadata;
+
+    @Convert(converter = MapConverter.class)
+    @Column(columnDefinition = "TEXT")
+    @JsonIgnore
+    private PaymentOptions paymentOptions;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date created;
 
 }

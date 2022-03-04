@@ -1,6 +1,6 @@
 package io.soffa.foundation.service;
 
-import io.soffa.foundation.core.db.DataSourceProperties;
+import io.soffa.foundation.core.data.DataSourceProperties;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

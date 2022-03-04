@@ -11,4 +11,9 @@ public class ResourceNotFoundException extends FunctionalException {
     public ResourceNotFoundException(Throwable cause, String message, Object... args) {
         super(cause, message, args);
     }
+
+    public ResourceNotFoundException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
 }

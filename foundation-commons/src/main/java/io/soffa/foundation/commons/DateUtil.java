@@ -7,6 +7,7 @@ import lombok.SneakyThrows;
 import org.joda.time.DateTime;
 
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -15,6 +16,10 @@ public class DateUtil {
 
     public static final String DEFAULT_FORMAT = "yyyyMMddHHmmss";
     public static Locale defaultLocale = Locale.getDefault();
+
+    public static Date now() {
+        return Date.from(Instant.now());
+    }
 
     public static void setDefaultLocale(Locale locale) {
         defaultLocale = locale;

@@ -12,4 +12,8 @@ public class TodoException extends FunctionalException {
         super(messsage);
     }
 
+    public TodoException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
 }

@@ -1,4 +1,4 @@
-package io.soffa.foundation.core.db;
+package io.soffa.foundation.core.data;
 
 import lombok.Data;
 

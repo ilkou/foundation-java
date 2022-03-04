@@ -13,4 +13,9 @@ public class FakeException extends RuntimeException implements ManagedException 
     public FakeException(Throwable cause, String message, Object... args) {
         super(TextUtil.format(message, args), cause);
     }
+
+    public FakeException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
 }

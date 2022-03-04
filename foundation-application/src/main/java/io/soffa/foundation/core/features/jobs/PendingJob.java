@@ -1,6 +1,7 @@
 package io.soffa.foundation.core.features.jobs;
 
-import io.soffa.foundation.core.db.model.EntityModel;
+import io.soffa.foundation.annotations.Store;
+import io.soffa.foundation.core.data.model.EntityModel;
 import lombok.*;
 
 import java.util.Date;
@@ -11,6 +12,7 @@ import java.util.Date;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Store("f_pending_jobs")
 public class PendingJob implements EntityModel {
 
     private String id;
@@ -18,5 +20,13 @@ public class PendingJob implements EntityModel {
     private String subject;
     private String data;
     private Date createdAt;
+    private String lastError;
+    private int errorsCount;
+
+    public void failed(String message) {
+        lastError = message;
+        errorsCount++;
+    }
+
 
 }

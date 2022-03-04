@@ -1,5 +1,6 @@
 package com.company.app;
 
+import io.soffa.foundation.commons.IdGenerator;
 import io.soffa.foundation.core.features.jobs.PendingJob;
 import io.soffa.foundation.core.features.jobs.PendingJobRepository;
 import io.soffa.foundation.core.features.journal.Journal;
@@ -30,14 +31,15 @@ public class FeatureRepositoriesTest {
         assertEquals(0, pendingJobs.count());
 
         PendingJob record = PendingJob.builder()
+            .id(IdGenerator.shortUUID("job_"))
             .operation(EVENT)
             .subject(ACCOUNT_ID)
             .build();
 
-        pendingJobs.save(record);
+        pendingJobs.insert(record);
         assertThrows(DatabaseException.class, () -> {
             record.setId(null);
-            pendingJobs.save(record); // operation + subject is unique
+            pendingJobs.insert(record); // operation + subject is unique
         });
 
         assertEquals(1, pendingJobs.count());
@@ -57,13 +59,13 @@ public class FeatureRepositoriesTest {
     public void testJournal() {
         assertNotNull(journal);
         assertEquals(0, journal.count());
-
         Journal record = Journal.builder()
+            .id(IdGenerator.shortUUID("jrn_"))
             .event("accounts.email.activation")
             .subject("account:123456789")
             .status("pending")
             .build();
-        journal.save(record);
+        journal.insert(record);
         assertEquals(1, journal.count());
 
     }

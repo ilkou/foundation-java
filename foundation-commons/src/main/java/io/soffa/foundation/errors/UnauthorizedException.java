@@ -12,4 +12,8 @@ public class UnauthorizedException extends FunctionalException {
         super(cause, message, args);
     }
 
+    public UnauthorizedException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
 }

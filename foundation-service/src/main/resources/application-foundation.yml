@@ -10,6 +10,7 @@ logging.level.foundation: ${PLATFORM_LOG_LEVEL:INFO}
 logging.level.app: ${LOG_LEVEL:INFO}
 logging.level.service: ${LOG_LEVEL:INFO}
 
+
 #
 
 spring.jackson:
@@ -93,6 +94,18 @@ org.jobrunr.dashboard.enabled: ${app.jobs.enabled:false}
 org.jobrunr.database.skip_create: true
 org.jobrunr.dashboard.port: 8000
 junit.jupiter.execution.parallel.enabled: true
+
+
+spring.sleuth.web.skipPattern: (^cleanup.*|.+favicon.*)
+
+spring.zipkin:
+  enabled: ${ZIPKIN_ENABLED:true}
+  base-url: ${ZIPKIN_BASE_URL:localhost:9411}
+
+spring.sleuth.web.client:
+  enabled: ${ZIPKIN_ENABLED:true}
+
+#https://cloud.spring.io/spring-cloud-sleuth/reference/html/appendix.html
 
 ---
 

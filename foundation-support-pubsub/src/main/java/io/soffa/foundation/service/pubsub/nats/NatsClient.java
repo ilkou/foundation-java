@@ -15,8 +15,6 @@ import io.soffa.foundation.errors.TechnicalException;
 import io.soffa.foundation.service.pubsub.AbstractPubSubClient;
 import lombok.SneakyThrows;
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.jetbrains.annotations.NotNull;
-
 import javax.annotation.PreDestroy;
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
@@ -98,13 +96,13 @@ public class NatsClient extends AbstractPubSubClient implements PubSubClient {
     }
 
     @Override
-    public void publish(@NonNull String target, @NotNull Message message) {
+    public void publish(@NonNull String target, @NonNull Message message) {
         connection.publish(NatsUtil.createNatsMessage(target, message));
     }
 
     @SneakyThrows
     @Override
-    public void broadcast(@NonNull String target, @NotNull Message message) {
+    public void broadcast(@NonNull String target, @NonNull Message message) {
         String sub = resolveBroadcast(target);
         if (TextUtil.isEmpty(sub)) {
             LOG.warn("Broadcasting ignored: %s, target is empy.", message.getOperation());

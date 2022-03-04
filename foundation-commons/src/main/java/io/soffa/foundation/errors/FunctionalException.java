@@ -13,4 +13,8 @@ public class FunctionalException extends RuntimeException implements ManagedExce
     public FunctionalException(Throwable cause, String message, Object... args) {
         super(TextUtil.format(message, args), cause);
     }
+
+    public FunctionalException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }

@@ -1,6 +1,7 @@
 package io.soffa.foundation.core.features.journal;
 
-import io.soffa.foundation.core.db.model.EntityModel;
+import io.soffa.foundation.annotations.Store;
+import io.soffa.foundation.core.data.model.EntityModel;
 import lombok.*;
 
 import java.util.Date;
@@ -11,6 +12,7 @@ import java.util.Date;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Store("f_journal")
 public class Journal implements EntityModel {
 
     private String id;

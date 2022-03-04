@@ -1,10 +1,7 @@
 package io.soffa.foundation.service.core;
 
 import com.google.common.collect.ImmutableMap;
-import io.soffa.foundation.commons.IdGenerator;
-import io.soffa.foundation.commons.JsonUtil;
-import io.soffa.foundation.commons.Logger;
-import io.soffa.foundation.commons.TextUtil;
+import io.soffa.foundation.commons.*;
 import io.soffa.foundation.core.RequestContext;
 import io.soffa.foundation.core.context.DefaultRequestContext;
 import io.soffa.foundation.core.context.RequestContextHolder;
@@ -51,23 +48,33 @@ public class RequestFilter extends OncePerRequestFilter {
         RequestContext context = new DefaultRequestContext();
 
         lookupHeader(request, "X-TenantId", "X-Tenant").ifPresent(value -> {
-            LOG.debug("Tenant found in context", value);
+            LOG.debug("Tenant found in header", value);
             context.setTenantId(value);
             TenantHolder.set(value);
         });
         lookupHeader(request, "X-Application", "X-ApplicationName", "X-ApplicationId", "X-App").ifPresent(context::setApplicationName);
-        lookupHeader(request, "X-TraceId", "X-Trace-Id", "X-RequestId", "X-Request-Id").ifPresent(context::setTraceId);
-        lookupHeader(request, "X-SpanId", "X-Span-Id", "X-CorrelationId", "X-Correlation-Id").ifPresent(context::setSpanId);
-        processTracing(context);
+        lookupHeader(request, "X-TraceId", "X-Trace-Id").ifPresent(context::setTraceId);
+        lookupHeader(request, "traceparent").ifPresent(context::setTraceId);
+        //lookupHeader(request, "X-SpanId", "X-Span-Id", "X-CorrelationId", "X-Correlation-Id").ifPresent(context::setSpanId);
 
+        LOG.debug("Pre-setting context with tracing data");
+
+        processTracing(context);
         RequestContextHolder.set(context);
 
         AtomicBoolean proceed = new AtomicBoolean(true);
+
+        LOG.debug("Looking up authorization");
         //noinspection Convert2Lambda
         lookupHeader(request, HttpHeaders.AUTHORIZATION, "X-JWT-Assertion", "X-JWT-Assertions").ifPresent(new Consumer<String>() {
             @SneakyThrows
             @Override
             public void accept(String value) {
+
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Authorization header found, fingerpint: %s", DigestUtil.md5(value));
+                }
+
                 try {
                     authManager.handle(context, value);
                 } catch (Exception e) {
@@ -89,10 +96,12 @@ public class RequestFilter extends OncePerRequestFilter {
         });
 
         if (!proceed.get()) {
+            LOG.debug("Aborting current request");
             return;
         }
 
         try {
+            LOG.debug("Setting request context and tenant before proceeding");
             RequestContextHolder.set(context);
             TenantHolder.set(context.getTenantId());
             chain.doFilter(request, response);

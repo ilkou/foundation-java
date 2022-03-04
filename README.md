@@ -1,4 +1,4 @@
 ### Foundation
 
-![Discuss](https://img.shields.io/badge/release-1.9.18-green.svg?style=flat)
+![Discuss](https://img.shields.io/badge/release-1.10.0-green.svg?style=flat)
 

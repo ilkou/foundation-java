@@ -11,4 +11,9 @@ public class NoContentException extends FunctionalException {
     public NoContentException(Throwable cause, String message, Object... args) {
         super(cause, message, args);
     }
+
+    public NoContentException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
 }

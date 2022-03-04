@@ -8,7 +8,6 @@ import io.soffa.foundation.commons.ObjectUtil;
 import io.soffa.foundation.commons.TextUtil;
 import io.soffa.foundation.core.operation.OperationResult;
 import io.soffa.foundation.errors.ManagedException;
-import kotlin.Unit;
 import lombok.AllArgsConstructor;
 
 import java.util.Optional;
@@ -57,8 +56,8 @@ public class NatsMessageHandler implements MessageHandler {
             Optional<Object> operationResult = handler.handle(message);
             if (operationResult.isPresent() && sendReply) {
                 Object result = operationResult.get();
-                Class<?> className = result.getClass();
-                boolean isNoop = className == Unit.class || className == Void.class;
+                Class<?> clazz = result.getClass();
+                boolean isNoop = "kotlin.Unit".equalsIgnoreCase(clazz.getName()) || clazz == Void.class;
                 if (!isNoop) {
                     OperationResult response = OperationResult.create(operationResult.orElse(null), null);
                     LOG.debug("Sending response back to %s [SID:%s]", msg.getReplyTo(), msg.getSID());

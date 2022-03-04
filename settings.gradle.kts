@@ -9,6 +9,7 @@ include(":foundation-support-data")
 include(":foundation-support-pubsub")
 include(":foundation-support-storage")
 include(":foundation-support-email")
+include(":foundation-support-tracing")
 
 include(":samples:sample-service")
 include(":samples:sample-service-data")

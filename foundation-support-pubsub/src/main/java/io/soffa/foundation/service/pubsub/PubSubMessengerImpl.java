@@ -6,8 +6,8 @@ import io.soffa.foundation.core.pubsub.MessageHandler;
 import io.soffa.foundation.core.pubsub.PubSubClient;
 import io.soffa.foundation.core.pubsub.PubSubMessenger;
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.jetbrains.annotations.NotNull;
 
+import javax.validation.constraints.NotNull;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 

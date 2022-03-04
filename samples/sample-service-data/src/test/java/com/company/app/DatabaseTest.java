@@ -1,6 +1,6 @@
 package com.company.app;
 
-import io.soffa.foundation.core.db.DB;
+import io.soffa.foundation.core.data.DB;
 import org.awaitility.Awaitility;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

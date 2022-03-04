@@ -34,4 +34,12 @@
         <addUniqueConstraint tableName="${table_prefix}f_pending_jobs" columnNames="operation,subject" constraintName="${table_prefix}f_pending_jobs__uniq_01" />
     </changeSet>
 
+
+    <changeSet id="20220302_AddErrorFields" author="core.team">
+        <addColumn tableName="${prefix}f_pending_jobs">
+            <column name="last_error" type="TEXT" />
+            <column name="errors_count" type="integer" />
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>

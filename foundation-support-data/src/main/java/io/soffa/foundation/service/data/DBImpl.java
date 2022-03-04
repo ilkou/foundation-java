@@ -4,12 +4,10 @@ import io.soffa.foundation.commons.CollectionUtil;
 import io.soffa.foundation.commons.EventBus;
 import io.soffa.foundation.commons.Logger;
 import io.soffa.foundation.commons.TextUtil;
+import io.soffa.foundation.core.AppConfig;
 import io.soffa.foundation.core.TenantsLoader;
 import io.soffa.foundation.core.context.TenantHolder;
-import io.soffa.foundation.core.db.DB;
-import io.soffa.foundation.core.db.DataSourceConfig;
-import io.soffa.foundation.core.db.DataSourceProperties;
-import io.soffa.foundation.core.db.DbConfig;
+import io.soffa.foundation.core.data.*;
 import io.soffa.foundation.core.events.DatabaseReadyEvent;
 import io.soffa.foundation.core.models.TenantId;
 import io.soffa.foundation.errors.ConfigurationException;
@@ -21,7 +19,6 @@ import net.javacrumbs.shedlock.core.LockConfiguration;
 import net.javacrumbs.shedlock.core.LockProvider;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.jdbi.v3.core.Jdbi;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
@@ -38,7 +35,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 @SuppressWarnings("PMD.GodClass")
@@ -46,29 +46,26 @@ public final class DBImpl extends AbstractDataSource implements ApplicationListe
 
     private static final Logger LOG = Logger.get(DBImpl.class);
     private String tablesPrefix;
-    private final String appicationName;
+    private final AppConfig appConfig;
     private String tenanstListQuery;
     private LockProvider lockProvider;
     private static final String TENANT_PLACEHOLDER = "__tenant__";
-    private static final String DEFAULT_DS = "default";
     private final ApplicationContext context;
     private static final AtomicReference<String> LOCK = new AtomicReference<>("DB_LOCK");
     private final Map<String, DatasourceInfo> registry = new ConcurrentHashMap<>();
 
     @SneakyThrows
     public DBImpl(final ApplicationContext context,
-                  final DbConfig dbConfig,
-                  final String appicationName) {
+                  final AppConfig appConfig) {
 
         super();
-
         this.context = context;
-        this.appicationName = appicationName;
-        if (dbConfig != null) {
-            this.tenanstListQuery = dbConfig.getTenantListQuery();
-            this.tablesPrefix = dbConfig.getTablesPrefix();
-            createDatasources(dbConfig.getDatasources());
-            this.lockProvider = DBHelper.createLockTable(registry.get(DEFAULT_DS).getDataSource(), this.tablesPrefix);
+        this.appConfig = appConfig;
+        if (appConfig.getDb() != null) {
+            this.tenanstListQuery = appConfig.getDb().getTenantListQuery();
+            this.tablesPrefix = appConfig.getDb().getTablesPrefix();
+            createDatasources(appConfig.getDb().getDatasources());
+            this.lockProvider = DBHelper.createLockTable(registry.get(TenantId.DEFAULT_VALUE).getDataSource(), this.tablesPrefix);
             applyMirations();
         }
     }
@@ -78,6 +75,37 @@ public final class DBImpl extends AbstractDataSource implements ApplicationListe
         return tablesPrefix;
     }
 
+    @Override
+    public Set<String> getTenantList() {
+        return registry.keySet().stream().filter(id -> {
+            // EL
+            return !(id.equals(TENANT_PLACEHOLDER) || id.equals(TenantId.DEFAULT_VALUE));
+        }).collect(Collectors.toSet());
+    }
+
+    @Override
+    public void withTenants(Consumer<String> consumer) {
+        Set<String> tenants = getTenantList();
+        tenants.forEach((id) -> {
+            boolean skip = id.equals(TENANT_PLACEHOLDER) || id.equals(TenantId.DEFAULT_VALUE);
+            if (!skip) {
+                TenantHolder.use(id, () -> consumer.accept(id));
+            }
+        });
+    }
+
+    @Override
+    public void withTenantsAsync(Consumer<String> consumer) {
+        ExecutorService scheduler = Executors.newFixedThreadPool(registry.size());
+        Set<String> tenants = getTenantList();
+        tenants.forEach((id) -> {
+            boolean skip = id.equals(TENANT_PLACEHOLDER) || id.equals(TenantId.DEFAULT_VALUE);
+            if (!skip) {
+                scheduler.execute(() -> TenantHolder.use(id, () -> consumer.accept(id)));
+            }
+        });
+    }
+
     private void createDatasources(Map<String, DataSourceConfig> datasources) {
         if (datasources == null || datasources.isEmpty()) {
             LOG.warn("No datasources configured for this service.");
@@ -85,7 +113,7 @@ public final class DBImpl extends AbstractDataSource implements ApplicationListe
             for (Map.Entry<String, DataSourceConfig> dbLink : datasources.entrySet()) {
                 register(dbLink.getKey(), dbLink.getValue(), false);
             }
-            if (!registry.containsKey(DEFAULT_DS)) {
+            if (!registry.containsKey(TenantId.DEFAULT_VALUE)) {
                 throw new TechnicalException("No default datasource provided");
             }
         }
@@ -112,8 +140,10 @@ public final class DBImpl extends AbstractDataSource implements ApplicationListe
         if (TENANT_PLACEHOLDER.equalsIgnoreCase(sourceId)) {
             registry.put(id.toLowerCase(), new DatasourceInfo(id, config));
         } else {
-            DataSource ds = DBHelper.createDataSource(DataSourceProperties.create(appicationName, id, url), config);
-            registry.put(sourceId, new DatasourceInfo(id, config, ds));
+            DataSource ds = DBHelper.createDataSource(DataSourceProperties.create(appConfig.getName(), id, url), config);
+            DatasourceInfo di = new DatasourceInfo(id, config, ds);
+            // di.configureTx(entityManagerFactoryBuilder, appConfig.getPkg());
+            registry.put(sourceId, di);
             if (migrate) {
                 applyMigrations(id);
             }
@@ -130,7 +160,6 @@ public final class DBImpl extends AbstractDataSource implements ApplicationListe
         throw new NotImplementedException("Not supported");
     }
 
-    @NotNull
     @Override
     public DataSource determineTargetDataSource() {
         Object lookupKey = determineCurrentLookupKey();
@@ -197,9 +226,9 @@ public final class DBImpl extends AbstractDataSource implements ApplicationListe
         }
         synchronized (LOCK) {
             withLock("db-migration-" + linkId, 60, 30, () -> {
-                String changelogPath = DBHelper.findChangeLogPath(appicationName, info.getConfig());
+                String changelogPath = DBHelper.findChangeLogPath(appConfig.getName(), info.getConfig());
                 if (TextUtil.isNotEmpty(changelogPath)) {
-                    DBHelper.applyMigrations(info, changelogPath, tablesPrefix, appicationName);
+                    DBHelper.applyMigrations(info, changelogPath, tablesPrefix, appConfig.getName());
                 }
                 info.setMigrated(true);
                 LOG.info("Migrations applied for %s", linkId);
@@ -224,13 +253,23 @@ public final class DBImpl extends AbstractDataSource implements ApplicationListe
         });
     }
 
+    @Override
+    public DataStore newStore() {
+        return new SimpleDataStore(this);
+    }
+
+    @Override
+    public <E> EntityRepository<E> newEntityRepository(Class<E> entityClass) {
+        return new SimpleEntityRepository<E>(this, entityClass);
+    }
+
     public void applyMirations() {
         registry.keySet().forEach(this::applyMigrations);
     }
 
     @Override
     public void configureTenants() {
-        DataSource defaultDs = registry.get(DEFAULT_DS).getDataSource();
+        DataSource defaultDs = registry.get(TenantId.DEFAULT_VALUE).getDataSource();
 
         if (!registry.containsKey(TENANT_PLACEHOLDER)) {
             LOG.debug("No TenantDS provided, skipping tenants migration.");

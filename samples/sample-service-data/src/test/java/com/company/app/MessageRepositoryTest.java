@@ -24,7 +24,6 @@ public class MessageRepositoryTest {
         assertTrue(messages.count() >= 0);
         TenantHolder.clear();
         assertTrue(messages.count() >= 0);
-
     }
 
 

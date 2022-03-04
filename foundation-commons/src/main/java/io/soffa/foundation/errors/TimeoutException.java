@@ -11,4 +11,9 @@ public class TimeoutException extends TechnicalException {
     public TimeoutException(String messsage, Object... args) {
         super(messsage, args);
     }
+
+    public TimeoutException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
 }

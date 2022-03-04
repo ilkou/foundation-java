@@ -103,5 +103,11 @@ public final class TenantHolder {
         }
     }
 
+    public static boolean isNotEmpty() {
+        return TextUtil.isNotEmpty(CURRENT.get());
+    }
 
+    public static boolean isEmpty() {
+        return TextUtil.isEmpty(CURRENT.get());
+    }
 }

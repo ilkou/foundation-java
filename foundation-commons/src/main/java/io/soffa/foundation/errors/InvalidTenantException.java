@@ -12,4 +12,8 @@ public class InvalidTenantException extends FunctionalException {
         super(cause, message, args);
     }
 
+    public InvalidTenantException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
 }

@@ -1,3 +1,9 @@
+## 1.10.0 (Mars 04, 2022)  
+
+* `DataStore` and `EntityStore` introduced
+* Tracing support added
+* Improvements and stability
+
 ## 1.9.18 (Mars 02, 2022)  
 
 * Default jackson property naming strategy restored

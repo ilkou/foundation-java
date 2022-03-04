@@ -3,7 +3,7 @@ package io.soffa.foundation.core;
 import io.soffa.foundation.commons.CollectionUtil;
 import io.soffa.foundation.commons.TextUtil;
 import io.soffa.foundation.core.context.DefaultRequestContext;
-import io.soffa.foundation.core.db.DbConfig;
+import io.soffa.foundation.core.data.DbConfig;
 import io.soffa.foundation.core.openapi.OpenAPIDesc;
 import io.soffa.foundation.core.security.model.SecurityConfig;
 import lombok.Data;
@@ -15,6 +15,7 @@ public class AppConfig {
 
     private boolean sysLogs = true;
     private String name;
+    private String pkg;
     private String version;
     private DbConfig db;
     private OpenAPIDesc openapi;

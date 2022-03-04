@@ -12,4 +12,8 @@ public class InvalidTokenException extends FunctionalException {
         super(cause, message, args);
     }
 
+    public InvalidTokenException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
 }

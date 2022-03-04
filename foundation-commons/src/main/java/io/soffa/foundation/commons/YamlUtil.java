@@ -12,7 +12,8 @@ import java.util.Map;
 public final class YamlUtil {
 
 
-    private static final ObjectMapper MAPPER = ObjectFactory.create(new YAMLMapper());
+    private static final ObjectMapper MAPPER = ObjectFactory.create(new YAMLMapper(), false);
+    // private static final ObjectMapper MAPPER_FULL_ACCESS = ObjectFactory.create(new YAMLMapper(), true);
 
     private YamlUtil() {
     }

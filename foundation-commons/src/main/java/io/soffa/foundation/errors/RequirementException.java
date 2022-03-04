@@ -11,4 +11,9 @@ public class RequirementException extends FunctionalException {
     public RequirementException(Throwable cause, String message, Object... args) {
         super(cause, message, args);
     }
+
+    public RequirementException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
 }

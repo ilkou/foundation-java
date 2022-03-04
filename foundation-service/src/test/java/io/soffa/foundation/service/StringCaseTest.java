@@ -1,17 +1,15 @@
 package io.soffa.foundation.service;
 
-import com.google.common.base.CaseFormat;
+import io.soffa.foundation.commons.StringUtil;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class StringCaseTest {
 
-
     @Test
     public void testStringCase() {
-        String output = CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, "helloOperation");
-        assertEquals("hello_operation", output);
+        assertEquals("hello_operation", StringUtil.lowerCamelToLowerUnderscore("helloOperation"));
     }
 
 }

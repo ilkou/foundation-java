@@ -13,11 +13,10 @@ import java.util.Map;
 public final class ErrorUtil {
 
     private static final String ALL_PACKAGES = "*";
-    private static String defaultErrorPackage = "io.soffa";
+    private static String defaultErrorPackage = "*";
     private static final Map<Class<?>, Integer> MAPPED_STATUS = new LinkedHashMap<>();
 
     private ErrorUtil() {
-        TextUtils.setRelevantPackage(defaultErrorPackage);
     }
 
     public static void setRelevantPackage(String pkg) {

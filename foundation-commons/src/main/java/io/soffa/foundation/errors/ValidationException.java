@@ -26,6 +26,10 @@ public class ValidationException extends FunctionalException {
         super(cause, message, args);
     }
 
+    public ValidationException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
     public String getField() {
         return field;
     }

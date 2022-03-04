@@ -1,4 +1,4 @@
-package io.soffa.foundation.core.db.model;
+package io.soffa.foundation.core.data.model;
 
 import java.util.Date;
 

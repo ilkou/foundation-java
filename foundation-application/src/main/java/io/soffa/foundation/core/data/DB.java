@@ -1,7 +1,12 @@
-package io.soffa.foundation.core.db;
+package io.soffa.foundation.core.data;
+
+import io.soffa.foundation.errors.TodoException;
 
 import javax.sql.DataSource;
 import java.time.Duration;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.function.Consumer;
 
 public interface DB {
 
@@ -12,6 +17,18 @@ public interface DB {
     DataSource determineTargetDataSource();
 
     String getTablesPrefix();
+
+    default Set<String> getTenantList() {
+        return new HashSet<>();
+    }
+
+    default void withTenants(Consumer<String> consumer) {
+        throw new TodoException();
+    }
+
+    default void withTenantsAsync(Consumer<String> consumer) {
+        throw new TodoException();
+    }
 
     default void configureTenants() {
         // Implementation not required
@@ -30,5 +47,13 @@ public interface DB {
     }
 
     void withLock(String name, Duration atMost, Duration atLeast, Runnable runnable);
+
+    default DataStore newStore() {
+        throw new TodoException("Implement me");
+    }
+
+    default <E> EntityRepository<E> newEntityRepository(Class<E> entityClass) {
+        throw new TodoException("Implement me");
+    }
 
 }

@@ -1,9 +1,14 @@
 package io.soffa.foundation.service.data;
 
-import io.soffa.foundation.core.db.DataSourceConfig;
+import io.soffa.foundation.core.data.DataSourceConfig;
 import lombok.Getter;
+import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
+import java.util.Objects;
 
 @Getter
 public class DatasourceInfo {
@@ -12,6 +17,8 @@ public class DatasourceInfo {
     private DataSource dataSource;
     private final DataSourceConfig config;
     private boolean migrated;
+    private LocalContainerEntityManagerFactoryBean em;
+    private PlatformTransactionManager tx;
 
     public DatasourceInfo(String name, DataSourceConfig config) {
         this.config = config;
@@ -21,6 +28,14 @@ public class DatasourceInfo {
     public DatasourceInfo(String name, DataSourceConfig config, DataSource dataSource) {
         this(name, config);
         this.dataSource = dataSource;
+
+    }
+
+    public void configureTx(EntityManagerFactoryBuilder builder,  String... packages) {
+        this.em = builder.dataSource(dataSource).packages(packages)
+            .persistenceUnit(name)
+            .build();
+        this.tx = new JpaTransactionManager(Objects.requireNonNull(this.em.getObject()));
     }
 
 

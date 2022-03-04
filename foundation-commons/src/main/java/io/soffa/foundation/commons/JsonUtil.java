@@ -14,8 +14,8 @@ import java.util.Map;
 
 public final class JsonUtil {
 
-    private static final ObjectMapper MAPPER = ObjectFactory.create(new ObjectMapper(), false);
-    private static final ObjectMapper MAPPER_FULL_ACCESS = ObjectFactory.create(new ObjectMapper(), true);
+    private static final ObjectMapper MAPPER = ObjectFactory.create(false);
+    private static final ObjectMapper MAPPER_FULL_ACCESS = ObjectFactory.create(true);
 
 
     private JsonUtil() {
@@ -47,6 +47,11 @@ public final class JsonUtil {
     @SneakyThrows
     public static <T> T deserialize(String jsonString, Class<T> type) {
         return ObjectFactory.deserialize(MAPPER, jsonString, type);
+    }
+
+    @SneakyThrows
+    public static <T> T deserializeIgnoreAccess(String jsonString, Class<T> type) {
+        return ObjectFactory.deserialize(MAPPER_FULL_ACCESS, jsonString, type);
     }
 
     @SneakyThrows
@@ -92,7 +97,6 @@ public final class JsonUtil {
 
     public static <T> T deserializeParametricType(String input, Class<?> rawType, Class<?>... parameterClasses) {
         return ObjectFactory.deserializeParametricType(MAPPER, input, rawType, parameterClasses);
-
     }
 
     public static <T> List<T> deserializeList(String input, Class<T> type) {

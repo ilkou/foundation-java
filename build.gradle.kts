@@ -3,6 +3,7 @@ plugins {
 }
 
 ext["caffeine.version"] = "2.9.3"
+// "https://oss.sonatype.org/content/groups/public"
 
 buildscript {
     repositories {
@@ -13,7 +14,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath("io.soffa.foundation:foundation-gradle-plugin:1.0.0")
+        classpath("io.soffa.foundation:foundation-gradle-plugin:1.0.2")
     }
 }
 
@@ -21,9 +22,7 @@ buildscript {
 apply(plugin = "foundation.sonatype-legacy-publish")
 
 allprojects {
-    repositories {
-        mavenCentral()
-    }
+    apply(plugin = "foundation.default-repositories")
     apply(plugin = "foundation.java8")
 }
 

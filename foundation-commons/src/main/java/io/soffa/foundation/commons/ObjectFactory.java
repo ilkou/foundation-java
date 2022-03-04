@@ -8,7 +8,9 @@ import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.deser.std.DateDeserializers;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.databind.introspect.Annotated;
+import com.fasterxml.jackson.databind.introspect.AnnotatedMember;
 import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.type.ArrayType;
 import com.fasterxml.jackson.databind.type.MapLikeType;
@@ -22,12 +24,13 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
-final class ObjectFactory {
+
+public final class ObjectFactory {
 
     private ObjectFactory() {
     }
 
-    private static class IgnoreJacksonAccessAnnotations extends JacksonAnnotationIntrospector {
+    private static class IgnoreAnnotations extends JacksonAnnotationIntrospector {
 
         private static final long serialVersionUID = 1L;
 
@@ -35,13 +38,24 @@ final class ObjectFactory {
         public JsonProperty.Access findPropertyAccess(Annotated m) {
             return JsonProperty.Access.AUTO;
         }
+
+        @Override
+        public boolean hasIgnoreMarker(AnnotatedMember m) {
+            return false;
+        }
     }
 
-    static ObjectMapper create(ObjectMapper mapper) {
-        return create(mapper, false);
+    public static ObjectMapper create() {
+        return create(false);
     }
 
-    static ObjectMapper create(ObjectMapper mapper, boolean ignoreAccessAnnotations) {
+    public static ObjectMapper create(boolean ignoreAccessAnnotations) {
+        JsonMapper.Builder builder = JsonMapper.builder()
+            .configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true);
+        return create(builder.build(), ignoreAccessAnnotations);
+    }
+
+    public static ObjectMapper create(ObjectMapper mapper, boolean ignoreAccessAnnotations) {
         SimpleModule simpleModule = new SimpleModule();
         simpleModule.addDeserializer(Date.class, new DateDeserializers.DateDeserializer() {
             @Override
@@ -57,13 +71,15 @@ final class ObjectFactory {
                 }
             }
         });
-        mapper.registerModule(simpleModule);
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+
         if (ignoreAccessAnnotations) {
-            mapper.setAnnotationIntrospector(new IgnoreJacksonAccessAnnotations());
+            mapper.setAnnotationIntrospector(new IgnoreAnnotations());
         }
-        return mapper;
+        return mapper
+            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+            .configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false)
+            .configure(SerializationFeature.WRITE_ENUMS_USING_TO_STRING, true)
+            .registerModule(simpleModule);
     }
 
     @SneakyThrows

@@ -3,13 +3,13 @@ package io.soffa.foundation.service.core.aop;
 import io.soffa.foundation.commons.Logger;
 import io.soffa.foundation.commons.TextUtil;
 import io.soffa.foundation.core.RequestContext;
+import io.soffa.foundation.core.context.TenantHolder;
 import io.soffa.foundation.errors.UnauthorizedException;
 import io.soffa.foundation.errors.ValidationException;
 import lombok.SneakyThrows;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,10 +19,9 @@ import java.util.Optional;
 
 @Aspect
 @Component
-@Order(SecurityAspect.ORDER)
-public class SecurityAspect {
+public class SecurityAspect   {
 
-    public static final int ORDER = 100;
+    public static final int ORDER = -100;
 
     private static final Logger LOG = Logger.get(SecurityAspect.class);
     private static final Throwable ERR_AUTH_REQUIRED = new UnauthorizedException("Authentication is required to access this resource.");
@@ -52,8 +51,8 @@ public class SecurityAspect {
     @SneakyThrows
     @Before("@within(io.soffa.foundation.annotations.TenantRequired) || @annotation(io.soffa.foundation.annotations.TenantRequired)")
     public void checkTenant(JoinPoint point) {
-        RequestContext context = getRequestContext().orElseThrow(() -> ERR_TENANT_REQUIRED);
-        if (context.getTenantId() == null) {
+        LOG.debug("Enforcing TenantRequired");
+        if (TenantHolder.isEmpty() || TenantHolder.isDefault()) {
             LOG.warn("Access denied to [%s.%s], current context does not contain a valid tenant", point.getSignature().getDeclaringTypeName(), point.getSignature().getName());
             throw ERR_TENANT_REQUIRED;
         }
@@ -66,6 +65,5 @@ public class SecurityAspect {
         }
         return Optional.empty();
     }
-
 
 }
