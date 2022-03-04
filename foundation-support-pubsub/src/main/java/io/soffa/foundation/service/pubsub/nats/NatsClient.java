@@ -15,6 +15,7 @@ import io.soffa.foundation.errors.TechnicalException;
 import io.soffa.foundation.service.pubsub.AbstractPubSubClient;
 import lombok.SneakyThrows;
 import org.checkerframework.checker.nullness.qual.NonNull;
+
 import javax.annotation.PreDestroy;
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;

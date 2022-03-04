@@ -3,11 +3,8 @@ package io.soffa.foundation.service.data;
 import io.soffa.foundation.core.AppConfig;
 import io.soffa.foundation.core.TenantsLoader;
 import io.soffa.foundation.core.data.DB;
-import io.soffa.foundation.errors.ConfigurationException;
 import org.jdbi.v3.core.Jdbi;
 import org.jdbi.v3.sqlobject.SqlObjectPlugin;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.ApplicationContext;
@@ -17,7 +14,6 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy;
 
 import javax.sql.DataSource;
-import java.util.Map;
 
 @Configuration
 public class DBConfiguration {
