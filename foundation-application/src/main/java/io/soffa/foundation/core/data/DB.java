@@ -1,5 +1,6 @@
 package io.soffa.foundation.core.data;
 
+import io.soffa.foundation.core.models.TenantId;
 import io.soffa.foundation.errors.TodoException;
 
 import javax.sql.DataSource;
@@ -14,7 +15,11 @@ public interface DB {
 
     boolean tenantExists(String tenant);
 
-    DataSource determineTargetDataSource();
+    default DataSource determineTargetDataSource() {
+        return determineTargetDataSource(TenantId.INHERIT);
+    }
+
+    DataSource determineTargetDataSource(TenantId tenant);
 
     String getTablesPrefix();
 

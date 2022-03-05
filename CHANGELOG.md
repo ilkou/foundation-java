@@ -1,3 +1,9 @@
+## 1.10.1 (Mars 05, 2022)  
+
+* SideEffects
+* Improvements and stability
+
+
 ## 1.10.0 (Mars 04, 2022)  
 
 * `DataStore` and `EntityStore` introduced

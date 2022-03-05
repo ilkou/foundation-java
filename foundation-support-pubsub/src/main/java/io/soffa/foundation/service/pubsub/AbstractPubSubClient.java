@@ -2,7 +2,7 @@ package io.soffa.foundation.service.pubsub;
 
 import io.soffa.foundation.commons.*;
 import io.soffa.foundation.core.messages.Message;
-import io.soffa.foundation.core.operation.OperationResult;
+import io.soffa.foundation.core.operation.CallResult;
 import io.soffa.foundation.core.pubsub.PubSubClient;
 import io.soffa.foundation.core.pubsub.PubSubClientConfig;
 import io.soffa.foundation.errors.ForbiddenException;
@@ -62,7 +62,7 @@ public abstract class AbstractPubSubClient implements PubSubClient {
         if (data==null) {
             return null;
         }
-        OperationResult response = ObjectUtil.deserialize(data, OperationResult.class);
+        CallResult response = ObjectUtil.deserialize(data, CallResult.class);
         if (response.isSuccess()) {
             return JsonUtil.deserialize(response.getData(), responseClass);
         } else {

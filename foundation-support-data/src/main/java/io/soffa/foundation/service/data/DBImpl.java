@@ -7,13 +7,17 @@ import io.soffa.foundation.commons.TextUtil;
 import io.soffa.foundation.core.AppConfig;
 import io.soffa.foundation.core.TenantsLoader;
 import io.soffa.foundation.core.context.TenantHolder;
-import io.soffa.foundation.core.data.*;
+import io.soffa.foundation.core.data.DB;
+import io.soffa.foundation.core.data.DataSourceConfig;
+import io.soffa.foundation.core.data.DataStore;
+import io.soffa.foundation.core.data.EntityRepository;
 import io.soffa.foundation.core.events.DatabaseReadyEvent;
 import io.soffa.foundation.core.models.TenantId;
 import io.soffa.foundation.errors.ConfigurationException;
 import io.soffa.foundation.errors.InvalidTenantException;
 import io.soffa.foundation.errors.NotImplementedException;
 import io.soffa.foundation.errors.TechnicalException;
+import io.soffa.foundation.service.data.config.DataSourceProperties;
 import lombok.SneakyThrows;
 import net.javacrumbs.shedlock.core.LockConfiguration;
 import net.javacrumbs.shedlock.core.LockProvider;
@@ -161,15 +165,19 @@ public final class DBImpl extends AbstractDataSource implements ApplicationListe
     }
 
     @Override
-    public DataSource determineTargetDataSource() {
-        Object lookupKey = determineCurrentLookupKey();
+    public DataSource determineTargetDataSource(TenantId tenant) {
+        Object lookupKey;
+        if (tenant.equals(TenantId.INHERIT)) {
+            lookupKey = determineCurrentLookupKey();
+        } else {
+            lookupKey = tenant.getValue();
+        }
         if (lookupKey != null) {
             lookupKey = lookupKey.toString().toLowerCase();
         }
         if (!registry.containsKey(lookupKey)) {
             throw new InvalidTenantException("%s is not a valid database link", lookupKey);
         }
-        LOG.debug("Using datasource: %s", lookupKey);
         return registry.get(lookupKey).getDataSource();
     }
 

@@ -64,10 +64,12 @@ public class FeatureRepositoriesTest {
             .event("accounts.email.activation")
             .subject("account:123456789")
             .status("pending")
+            .kind("accounts")
             .build();
         journal.insert(record);
         assertEquals(1, journal.count());
 
     }
+
 
 }

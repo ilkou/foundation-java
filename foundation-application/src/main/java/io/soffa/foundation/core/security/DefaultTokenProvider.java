@@ -124,7 +124,7 @@ public class DefaultTokenProvider implements TokenProvider, ClaimsExtractor {
 
         return Authentication.builder().
             claims(token.getClaims()).
-            liveMode(Objects.equals(token.lookupClaim("liveMode").orElse(null), "true")).
+            liveMode(Objects.equals(token.lookupClaim("live", "liveMode").orElse(null), "true")).
             username(token.getSubject()).
             tenantId(tenant).
             application(token.lookupClaim("applicationName", "application", "applicationId", "app").orElse(null)).

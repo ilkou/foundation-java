@@ -7,9 +7,9 @@ import org.jdbi.v3.core.config.ConfigRegistry;
 
 import java.sql.Types;
 
-public class VOArgumentFactory extends AbstractArgumentFactory<VO> {
+public class SerializableArgumentFactory extends AbstractArgumentFactory<VO> {
 
-    public VOArgumentFactory() {
+    public SerializableArgumentFactory() {
         super(Types.VARCHAR);
     }
 

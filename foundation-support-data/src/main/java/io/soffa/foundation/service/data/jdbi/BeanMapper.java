@@ -17,7 +17,7 @@ import java.util.Map;
 public final class BeanMapper<T> implements RowMapper<T> {
 
     private final EntityInfo<T> entityInfo;
-    private static final ObjectMapper MAPPER = ObjectFactory.create(true);
+    public static final ObjectMapper MAPPER = ObjectFactory.create(true);
 
     static {
         MAPPER.setPropertyNamingStrategy(new PropertyNamingStrategies.SnakeCaseStrategy());

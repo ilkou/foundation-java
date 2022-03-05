@@ -2,17 +2,17 @@ package io.soffa.foundation.core.data.model;
 
 import java.util.Date;
 
-public interface EntityModel {
+public interface EntityModel extends EntityLifecycle {
 
     String getId();
 
     void setId(String value);
 
-    default Date getCreatedAt() {
+    default Date getCreated() {
         return null;
     }
 
-    default void setCreatedAt(Date date){
+    default void setCreated(Date date) {
         // Default implementation
     }
 }

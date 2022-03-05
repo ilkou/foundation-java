@@ -1,5 +1,6 @@
 package io.soffa.foundation.commons;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -75,6 +76,9 @@ public final class ObjectFactory {
         if (ignoreAccessAnnotations) {
             mapper.setAnnotationIntrospector(new IgnoreAnnotations());
         }
+
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+
         return mapper
             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
             .configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false)

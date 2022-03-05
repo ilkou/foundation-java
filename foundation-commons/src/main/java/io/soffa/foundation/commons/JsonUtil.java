@@ -119,5 +119,8 @@ public final class JsonUtil {
         return ObjectFactory.toMap(MAPPER, input, valueClass);
     }
 
-
+    @SneakyThrows
+    public static String prettyPrint(Object any)  {
+        return MAPPER.writerWithDefaultPrettyPrinter().writeValueAsString(any);
+    }
 }

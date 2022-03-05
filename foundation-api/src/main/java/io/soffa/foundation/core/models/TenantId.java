@@ -8,6 +8,8 @@ import lombok.Value;
 public class TenantId   {
 
     public static final String DEFAULT_VALUE = "default";
+    public static final String INHERIT_VALUE = "inherit";
+    public static final TenantId INHERIT = new TenantId(INHERIT_VALUE);
     public static final TenantId DEFAULT = new TenantId(DEFAULT_VALUE);
 
     @JsonValue

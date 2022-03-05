@@ -6,12 +6,14 @@ import io.soffa.foundation.commons.IdGenerator;
 import io.soffa.foundation.commons.TextUtil;
 import io.soffa.foundation.core.data.DB;
 import io.soffa.foundation.core.data.DataStore;
+import io.soffa.foundation.core.data.model.EntityLifecycle;
 import io.soffa.foundation.core.data.model.EntityModel;
+import io.soffa.foundation.core.models.TenantId;
 import io.soffa.foundation.errors.DatabaseException;
 import io.soffa.foundation.service.data.jdbi.BeanMapper;
 import io.soffa.foundation.service.data.jdbi.MapArgumentFactory;
-import io.soffa.foundation.service.data.jdbi.ModelArgumentFactory;
-import io.soffa.foundation.service.data.jdbi.VOArgumentFactory;
+import io.soffa.foundation.service.data.jdbi.ObjectArgumentFactory;
+import io.soffa.foundation.service.data.jdbi.SerializableArgumentFactory;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.jdbi.v3.core.Handle;
 import org.jdbi.v3.core.Jdbi;
@@ -47,17 +49,23 @@ public class SimpleDataStore implements DataStore {
     }
 
     @Override
-    public <E> E insert(@NonNull E model) {
+    public <E> E insert(TenantId tenant, @NonNull E model) {
+        if (model instanceof EntityLifecycle) {
+            EntityLifecycle lc = (EntityLifecycle) model;
+            lc.onInsert();
+            lc.onSave();
+        }
         if (model instanceof EntityModel) {
             EntityModel em = (EntityModel) model;
-            if (em.getCreatedAt() == null) {
-                em.setCreatedAt(Date.from(Instant.now()));
+            if (em.getCreated() == null) {
+                em.setCreated(Date.from(Instant.now()));
             }
             if (TextUtil.isEmpty(em.getId())) {
                 em.setId(IdGenerator.shortUUID());
             }
         }
-        return inTransaction(model.getClass(), (h, info) -> {
+
+        return inTransaction(tenant, model.getClass(), (h, info) -> {
             h.createUpdate("INSERT INTO <table> (<columns>) VALUES (<values>)")
                 .define(TABLE, info.getTableName())
                 .defineList(COLUMNS, info.getColumnsEscaped())
@@ -69,8 +77,13 @@ public class SimpleDataStore implements DataStore {
     }
 
     @Override
-    public <E> E update(@NonNull E model) {
-        return inTransaction(model.getClass(), (h, info) -> {
+    public <E> E update(TenantId tenant, @NonNull E model) {
+        if (model instanceof EntityLifecycle) {
+            EntityLifecycle lc = (EntityLifecycle) model;
+            lc.onUpdate();
+            lc.onSave();
+        }
+        return inTransaction(tenant, model.getClass(), (h, info) -> {
             h.createUpdate("UPDATE <table> SET <columns> WHERE <idColumn> = :<idField>")
                 .define(TABLE, info.getTableName())
                 .defineList(COLUMNS, info.getUpdatePairs())
@@ -83,8 +96,8 @@ public class SimpleDataStore implements DataStore {
     }
 
     @Override
-    public <E> int delete(E model) {
-        return inTransaction(model.getClass(), (handle, info) -> {
+    public <E> int delete(TenantId tenant, E model) {
+        return inTransaction(tenant, model.getClass(), (handle, info) -> {
             // EL
             return handle.createUpdate("DELETE FROM <table> WHERE <idColumn> = :<idField>")
                 .define(TABLE, info.getTableName())
@@ -96,8 +109,9 @@ public class SimpleDataStore implements DataStore {
     }
 
     @Override
-    public <E> int delete(@NonNull Class<E> entityClass, @NonNull String where, Map<String, Object> binding) {
-        return inTransaction(entityClass, (handle, info) -> {
+    public <E> int delete(TenantId tenant, @NonNull Class<E> entityClass, @NonNull String where,
+                          Map<String, Object> binding) {
+        return inTransaction(tenant, entityClass, (handle, info) -> {
             // EL
             return handle.createUpdate("DELETE FROM <table> WHERE <where>")
                 .define(TABLE, info.getTableName())
@@ -108,8 +122,8 @@ public class SimpleDataStore implements DataStore {
     }
 
     @Override
-    public <E> List<E> findAll(Class<E> entityClass) {
-        return withHandle(entityClass, (handle, info) -> {
+    public <E> List<E> findAll(TenantId tenant, Class<E> entityClass) {
+        return withHandle(tenant, entityClass, (handle, info) -> {
             // EL
             return buildQuery(handle, entityClass, "1=1", ImmutableMap.of())
                 .map(BeanMapper.of(info)).collect(Collectors.toList());
@@ -117,8 +131,10 @@ public class SimpleDataStore implements DataStore {
     }
 
     @Override
-    public <E> List<E> find(Class<E> entityClass, String where, Map<String, Object> binding) {
-        return withHandle(entityClass, (handle, info) -> {
+    public <E> List<E> find(TenantId tenant, Class<E> entityClass,
+                            String where,
+                            Map<String, Object> binding) {
+        return withHandle(tenant, entityClass, (handle, info) -> {
             //EL
             return buildQuery(handle, entityClass, where, binding)
                 .map(BeanMapper.of(info)).collect(Collectors.toList());
@@ -126,8 +142,10 @@ public class SimpleDataStore implements DataStore {
     }
 
     @Override
-    public <E> Optional<E> get(Class<E> entityClass, String where, Map<String, Object> binding) {
-        return withHandle(entityClass, (handle, info) -> {
+    public <E> Optional<E> get(TenantId tenant, Class<E> entityClass,
+                               String where,
+                               Map<String, Object> binding) {
+        return withHandle(tenant, entityClass, (handle, info) -> {
             //EL
             return buildQuery(handle, entityClass, where, binding)
                 .map(BeanMapper.of(info)).findFirst();
@@ -135,8 +153,9 @@ public class SimpleDataStore implements DataStore {
     }
 
     @Override
-    public <E> Optional<E> findById(Class<E> entityClass, Object value) {
-        return withHandle(entityClass, (handle, info) -> {
+    public <E> Optional<E> findById(TenantId tenant, Class<E> entityClass,
+                                    Object value) {
+        return withHandle(tenant, entityClass, (handle, info) -> {
             //EL
             return handle.createQuery("SELECT * FROM <table> WHERE <idColumn> = :value")
                 .define(TABLE, info.getTableName())
@@ -147,8 +166,8 @@ public class SimpleDataStore implements DataStore {
     }
 
     @Override
-    public <E> long count(@NonNull Class<E> entityClass) {
-        return withHandle(entityClass, (handle, info) -> {
+    public <E> long count(TenantId tenant, @NonNull Class<E> entityClass) {
+        return withHandle(tenant, entityClass, (handle, info) -> {
             //EL
             return handle.createQuery("SELECT COUNT(*) from <table>")
                 .define(TABLE, info.getTableName())
@@ -157,8 +176,10 @@ public class SimpleDataStore implements DataStore {
     }
 
     @Override
-    public <E> long count(@NonNull Class<E> entityClass, @NonNull String where, Map<String, Object> binding) {
-        return withHandle(entityClass, (handle, info) -> {
+    public <E> long count(TenantId tenant, @NonNull Class<E> entityClass,
+                          @NonNull String where,
+                          Map<String, Object> binding) {
+        return withHandle(tenant, entityClass, (handle, info) -> {
             // EL
             return handle.createQuery("SELECT COUNT(*) from <table> WHERE <where>")
                 .define(TABLE, info.getTableName())
@@ -170,7 +191,10 @@ public class SimpleDataStore implements DataStore {
 
     // =================================================================================================================
 
-    private <E> Query buildQuery(Handle handle, Class<E> entityClass, String where, Map<String, Object> binding) {
+    private <E> Query buildQuery(Handle handle,
+                                 Class<E> entityClass,
+                                 String where,
+                                 Map<String, Object> binding) {
         EntityInfo<E> info = EntityInfo.get(entityClass, db.getTablesPrefix());
         return handle.createQuery("SELECT * FROM <table> WHERE <where>")
             .define(TABLE, info.getTableName())
@@ -179,26 +203,30 @@ public class SimpleDataStore implements DataStore {
             .bindMap(binding);
     }
 
-    private <T, E> T inTransaction(Class<E> entityClass, BiFunction<Handle, EntityInfo<E>, T> consumer) {
+    private <T, E> T inTransaction(TenantId tenant,
+                                   Class<E> entityClass,
+                                   BiFunction<Handle, EntityInfo<E>, T> consumer) {
         try {
             EntityInfo<E> info = EntityInfo.get(entityClass, db.getTablesPrefix());
-            return getLink().inTransaction(handle -> consumer.apply(handle, info));
+            return getLink(tenant).inTransaction(handle -> consumer.apply(handle, info));
         } catch (Exception e) {
             throw new DatabaseException(e);
         }
     }
 
-    private <T, E> T withHandle(Class<E> entityClass, BiFunction<Handle, EntityInfo<E>, T> consumer) {
+    private <T, E> T withHandle(TenantId tenant,
+                                Class<E> entityClass,
+                                BiFunction<Handle, EntityInfo<E>, T> consumer) {
         try {
             EntityInfo<E> info = EntityInfo.get(entityClass, db.getTablesPrefix());
-            return getLink().withHandle(handle -> consumer.apply(handle, info));
+            return getLink(tenant).withHandle(handle -> consumer.apply(handle, info));
         } catch (Exception e) {
             throw new DatabaseException(e);
         }
     }
 
-    private Jdbi getLink() {
-        DataSource dataSource = db.determineTargetDataSource();
+    private Jdbi getLink(TenantId tenant) {
+        DataSource dataSource = db.determineTargetDataSource(tenant);
         Jdbi jdbi = Jdbi.create(new TransactionAwareDataSourceProxy(dataSource))
             .installPlugin(new SqlObjectPlugin());
         if (dataSource instanceof HikariDataSource) {
@@ -207,9 +235,9 @@ public class SimpleDataStore implements DataStore {
                 jdbi.installPlugin(new PostgresPlugin());
             }
         }
-        jdbi.registerArgument(new VOArgumentFactory());
+        jdbi.registerArgument(new SerializableArgumentFactory());
         jdbi.registerArgument(new MapArgumentFactory());
-        jdbi.registerArgument(new ModelArgumentFactory());
+        jdbi.registerArgument(new ObjectArgumentFactory());
         return jdbi;
     }
 

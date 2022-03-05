@@ -6,7 +6,7 @@ import io.nats.client.MessageHandler;
 import io.soffa.foundation.commons.Logger;
 import io.soffa.foundation.commons.ObjectUtil;
 import io.soffa.foundation.commons.TextUtil;
-import io.soffa.foundation.core.operation.OperationResult;
+import io.soffa.foundation.core.operation.CallResult;
 import io.soffa.foundation.errors.ManagedException;
 import lombok.AllArgsConstructor;
 
@@ -59,7 +59,7 @@ public class NatsMessageHandler implements MessageHandler {
                 Class<?> clazz = result.getClass();
                 boolean isNoop = "kotlin.Unit".equalsIgnoreCase(clazz.getName()) || clazz == Void.class;
                 if (!isNoop) {
-                    OperationResult response = OperationResult.create(operationResult.orElse(null), null);
+                    CallResult response = CallResult.create(operationResult.orElse(null), null);
                     LOG.debug("Sending response back to %s [SID:%s]", msg.getReplyTo(), msg.getSID());
                     connection.publish(msg.getReplyTo(), msg.getSubject(), ObjectUtil.serialize(response));
                 }
@@ -69,7 +69,7 @@ public class NatsMessageHandler implements MessageHandler {
             LOG.error("Nats event handling failed with error", e);
             if (e instanceof ManagedException) {
                 if (sendReply) {
-                    connection.publish(msg.getReplyTo(), msg.getSubject(), ObjectUtil.serialize(OperationResult.create(null, e)));
+                    connection.publish(msg.getReplyTo(), msg.getSubject(), ObjectUtil.serialize(CallResult.create(null, e)));
                 }
             } else {
                 throw e;

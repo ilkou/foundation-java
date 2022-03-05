@@ -1,4 +1,4 @@
-package io.soffa.foundation.core.data;
+package io.soffa.foundation.service.data.config;
 
 import io.soffa.foundation.commons.Logger;
 import io.soffa.foundation.commons.TextUtil;

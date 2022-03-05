@@ -1,9 +1,11 @@
 package io.soffa.foundation.commons;
 
 
+import com.google.gson.internal.Primitives;
 import io.soffa.foundation.errors.TechnicalException;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.reflect.TypeUtils;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -80,6 +82,16 @@ public class ClassUtil {
         return clazz.getConstructor().newInstance();
     }
 
-
-
+    public static boolean isBaseType(@NonNull Type type) {
+        if (Primitives.isPrimitive(type) || Primitives.isWrapperType(type)) {
+            return true;
+        }
+        if (type instanceof Class) {
+            Class<?> clazz = (Class<?>) type;
+            if (clazz.isEnum()) {
+                return true;
+            }
+        }
+        return type.getTypeName().startsWith("java.") || type.getTypeName().startsWith("javax.");
+    }
 }

@@ -1,6 +1,5 @@
 package com.company.app.gateways;
 
-import io.soffa.foundation.core.models.Model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PaymentOptions implements Model {
+public class PaymentOptions {
 
     //@JsonProperty("mobile_money")
     private MobileMoneyOption mobileMoney;

@@ -1,6 +1,7 @@
 package io.soffa.foundation.core;
 
 import io.soffa.foundation.core.models.Authentication;
+import io.soffa.foundation.core.models.SideEffects;
 
 import java.util.Map;
 import java.util.Optional;
@@ -20,6 +21,10 @@ public interface RequestContext {
     }
 
     String getAuthorization();
+
+    default SideEffects getSideEffects() {
+        return null;
+    }
 
     Map<String, String> getContextMap();
 

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.soffa.foundation.commons.TextUtil;
 import io.soffa.foundation.core.RequestContext;
 import io.soffa.foundation.core.models.Authentication;
+import io.soffa.foundation.core.models.SideEffects;
 import lombok.Data;
 import lombok.SneakyThrows;
 
@@ -22,6 +23,8 @@ public class DefaultRequestContext implements RequestContext {
     private String sender;
     private String traceId;
     private String spanId;
+    @JsonIgnore
+    private transient SideEffects sideEffects = new SideEffects();
 
     @JsonIgnore
     private transient Authentication authentication;
@@ -98,7 +101,6 @@ public class DefaultRequestContext implements RequestContext {
     public void sync() {
         this.sender = serviceName;
     }
-
 
     @Override
     @SneakyThrows

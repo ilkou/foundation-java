@@ -2,7 +2,7 @@ package io.soffa.foundation.service.pubsub.simple;
 
 import io.soffa.foundation.commons.ObjectUtil;
 import io.soffa.foundation.core.messages.Message;
-import io.soffa.foundation.core.operation.OperationResult;
+import io.soffa.foundation.core.operation.CallResult;
 import io.soffa.foundation.core.pubsub.MessageHandler;
 import io.soffa.foundation.core.pubsub.PubSubClient;
 import io.soffa.foundation.errors.ConfigurationException;
@@ -36,7 +36,7 @@ public class SimplePubSubClient extends AbstractPubSubClient implements PubSubCl
             if (result == null) {
                 return null;
             }
-            OperationResult opr = OperationResult.create(ObjectUtil.serialize(result), null);
+            CallResult opr = CallResult.create(ObjectUtil.serialize(result), null);
             return ObjectUtil.serialize(opr);
         });
     }

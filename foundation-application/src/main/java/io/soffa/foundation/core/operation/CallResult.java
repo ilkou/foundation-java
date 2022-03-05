@@ -7,7 +7,7 @@ import io.soffa.foundation.errors.ErrorUtil;
 import lombok.Data;
 
 @Data
-public class OperationResult {
+public class CallResult {
 
     private Integer errorCode;
     private String error;
@@ -22,8 +22,8 @@ public class OperationResult {
         return !hasError();
     }
 
-    public static OperationResult create(Object payload, Exception e) {
-        OperationResult response = new OperationResult();
+    public static CallResult create(Object payload, Exception e) {
+        CallResult response = new CallResult();
         if (e!=null) {
             response.setErrorCode(ErrorUtil.resolveErrorCode(e));
             response.setError(e.getMessage());

@@ -1,12 +1,13 @@
 package io.soffa.foundation.service.data;
 
 import io.soffa.foundation.annotations.Store;
+import io.soffa.foundation.annotations.StoreId;
+import io.soffa.foundation.commons.ClassUtil;
 import io.soffa.foundation.commons.StringUtil;
 import io.soffa.foundation.commons.TextUtil;
 import io.soffa.foundation.errors.ConfigurationException;
 import io.soffa.foundation.errors.TechnicalException;
 import lombok.Getter;
-import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 
 import javax.persistence.Id;
@@ -54,7 +55,7 @@ public class EntityInfo<T> {
         propertiesTypes.put(property, type);
         propertiesTypes.put(column, type);
 
-        if (!ClassUtils.isPrimitiveOrWrapper(type)) {
+        if (!ClassUtil.isBaseType(type) || Map.class.isAssignableFrom(type)) {
             customTypes.add(property);
         }
     }
@@ -76,7 +77,9 @@ public class EntityInfo<T> {
                 continue;
             }
             int modifier = field.getModifiers();
-            if (field.getAnnotation(Id.class) != null) {
+            if (field.getAnnotation(StoreId.class) != null) {
+                info.idProperty = field.getName();
+            } else if (field.getAnnotation(Id.class) != null) {
                 info.idProperty = field.getName();
             } else {
                 boolean isDefaultIdField = info.idProperty == null && "id".equals(field.getName());

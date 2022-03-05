@@ -52,10 +52,10 @@ public final class TenantHolder {
     public static void set(String value) {
         Logger.setTenantId(value);
         if (TextUtil.isEmpty(value)) {
-            LOG.debug("Active tenant is set to: default");
+            LOG.trace("Active tenant is set to: default");
             CURRENT.remove();
         } else {
-            LOG.debug("Active tenant is set to: %s", value);
+            LOG.trace("Active tenant is set to: %s", value);
             CURRENT.set(value);
         }
     }
@@ -90,14 +90,14 @@ public final class TenantHolder {
             return supplier.get();
         }
         if (TextUtil.isNotEmpty(current)) {
-            LOG.debug("Tenant switch %s --> %s", current, tenantId);
+            LOG.trace("Tenant switch %s --> %s", current, tenantId);
         }
         try {
             set(tenantId);
             return supplier.get();
         } finally {
             if (TextUtil.isNotEmpty(current)) {
-                LOG.debug("Tenant restored %s --> %s", tenantId, current);
+                LOG.trace("Tenant restored %s --> %s", tenantId, current);
                 set(current);
             }
         }

@@ -2,9 +2,9 @@ package io.soffa.foundation.annotations;
 
 import java.lang.annotation.*;
 
-@Target({ElementType.METHOD})
+@Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
 @Documented
-public @interface Journal {
+public @interface StoreId {
 }

@@ -9,7 +9,7 @@ import javax.persistence.Column;
 @Value
 public class MessageId implements VO {
 
-    public static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     @JsonValue
     @Column(name = "id")

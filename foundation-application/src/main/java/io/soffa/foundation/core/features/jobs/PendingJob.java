@@ -19,7 +19,7 @@ public class PendingJob implements EntityModel {
     private String operation;
     private String subject;
     private String data;
-    private Date createdAt;
+    private Date created;
     private String lastError;
     private int errorsCount;
 
