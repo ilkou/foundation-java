@@ -22,6 +22,7 @@ public final class ValidationUtil {
             return;
         }
         ConstraintViolation<T> c = violations.iterator().next();
-        throw new ValidationException(c.getPropertyPath().toString(), c.getMessage());
+        String prop = c.getPropertyPath().toString();
+        throw new ValidationException(prop, prop + " " + c.getMessage());
     }
 }
