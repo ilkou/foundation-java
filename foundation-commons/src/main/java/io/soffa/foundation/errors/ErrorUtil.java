@@ -79,7 +79,7 @@ public final class ErrorUtil {
                 return new ForbiddenException(message);
             case HttpStatus.UNAUTHORIZED:
                 return new UnauthorizedException(message);
-            case HttpStatus.TIMEOUT:
+            case HttpStatus.REQUEST_TIMEOUT:
                 return new TimeoutException(message);
             default:
                 return new TechnicalException(message);
@@ -113,8 +113,8 @@ public final class ErrorUtil {
         MAPPED_STATUS.put(ResourceNotFoundException.class, HttpStatus.NOT_FOUND);
         MAPPED_STATUS.put(NoContentException.class, HttpStatus.NO_CONTENT);
         MAPPED_STATUS.put(TodoException.class, HttpStatus.NOT_IMLEMENTED);
-        MAPPED_STATUS.put(SocketException.class, HttpStatus.TIMEOUT );
-        MAPPED_STATUS.put(TimeoutException.class, HttpStatus.TIMEOUT);
+        MAPPED_STATUS.put(SocketException.class, HttpStatus.REQUEST_TIMEOUT );
+        MAPPED_STATUS.put(TimeoutException.class, HttpStatus.REQUEST_TIMEOUT);
         MAPPED_STATUS.put(TechnicalException.class, HttpStatus.SERVER_ERROR);
         MAPPED_STATUS.put(FunctionalException.class, HttpStatus.BAD_REQUEST);
     }
