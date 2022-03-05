@@ -106,11 +106,9 @@ public class RequestFilter extends OncePerRequestFilter {
             TenantHolder.set(context.getTenantId());
             chain.doFilter(request, response);
         } finally {
-            if (LOG.isDebugEnabled()) {
-                if (context.getSideEffects() != null && !context.getSideEffects().isEmpty()) {
-                    LOG.debug("SIDE_EFFECTS");
-                    LOG.debug(JsonUtil.prettyPrint(context.getSideEffects()));
-                }
+            if (LOG.isDebugEnabled() && context.getSideEffects() != null && !context.getSideEffects().isEmpty()) {
+                LOG.debug("SIDE_EFFECTS");
+                LOG.debug(JsonUtil.prettyPrint(context.getSideEffects()));
             }
             RequestContextHolder.clear();
             TenantHolder.clear();

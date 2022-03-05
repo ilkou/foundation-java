@@ -2,6 +2,7 @@ plugins {
     id("foundation.java8")
     id("foundation.maven-publish")
     id("foundation.springboot.library")
+    id("foundation.qa.coverage.l4")
 }
 
 dependencies {
@@ -14,7 +15,10 @@ dependencies {
     compileOnly("org.springframework.boot:spring-boot-autoconfigure")
     testImplementation(project(":foundation-service"))
     testImplementation(project(":foundation-service-test"))
-    testImplementation("berlin.yuna:nats-server-embedded:2.2.72")
+    testImplementation("berlin.yuna:nats-server-embedded:2.2.76")
 
+}
+repositories {
+    mavenCentral()
 }
 

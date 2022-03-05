@@ -2,7 +2,7 @@ plugins {
     id("foundation.java8")
     id("foundation.maven-publish")
     id("foundation.test.junit5")
-
+    id("foundation.qa.coverage.l1")
 }
 
 dependencies {
@@ -24,7 +24,7 @@ dependencies {
     implementation("commons-codec:commons-codec:1.15")
     implementation("io.pebbletemplates:pebble:3.1.5")
     implementation("com.auth0:java-jwt:3.18.3")
-    implementation("com.nimbusds:nimbus-jose-jwt:9.19")
+    implementation("com.nimbusds:nimbus-jose-jwt:9.20")
     api("org.apache.commons:commons-text:1.9")
     implementation("com.jsoniter:jsoniter:0.9.23")  {
         exclude(group = "com.fasterxml.jackson.core")
@@ -36,5 +36,8 @@ dependencies {
     api("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.1")
     api("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.13.1")
 
+}
+repositories {
+    mavenCentral()
 }
 

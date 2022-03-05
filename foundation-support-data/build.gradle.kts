@@ -17,7 +17,7 @@ dependencies {
             strictly("2.9.3")
         }
     }
-    implementation("org.postgresql:postgresql:42.3.2")
+    implementation("org.postgresql:postgresql:42.3.3")
     @Suppress("GradlePackageUpdate")
     implementation("com.zaxxer:HikariCP:4.0.3") {
         exclude(group = "com.github.ben-manes.caffeine")
@@ -28,9 +28,12 @@ dependencies {
     implementation("org.jdbi:jdbi3-core:3.27.2") {
         exclude(group = "com.github.ben-manes.caffeine")
     }
-    implementation("org.liquibase:liquibase-core:4.7.1")
+    implementation("org.liquibase:liquibase-core:4.8.0")
     implementation("org.jdbi:jdbi3-postgres:3.27.2")
     implementation("org.jdbi:jdbi3-sqlobject:3.27.2")
+}
+repositories {
+    mavenCentral()
 }
 
 

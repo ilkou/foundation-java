@@ -99,6 +99,8 @@ public final class ErrorUtil {
     }
 
     static {
+        MAPPED_STATUS.put(DatabaseException.class, HttpStatus.SERVER_ERROR);
+        MAPPED_STATUS.put(ConfigurationException.class, HttpStatus.SERVER_ERROR);
         MAPPED_STATUS.put(RequirementException.class, HttpStatus.EXPECTATION_FAILED);
         MAPPED_STATUS.put(NotImplementedException.class, HttpStatus.NOT_IMLEMENTED);
         MAPPED_STATUS.put(InvalidTenantException.class, HttpStatus.BAD_REQUEST);
@@ -113,5 +115,7 @@ public final class ErrorUtil {
         MAPPED_STATUS.put(TodoException.class, HttpStatus.NOT_IMLEMENTED);
         MAPPED_STATUS.put(SocketException.class, HttpStatus.TIMEOUT );
         MAPPED_STATUS.put(TimeoutException.class, HttpStatus.TIMEOUT);
+        MAPPED_STATUS.put(TechnicalException.class, HttpStatus.SERVER_ERROR);
+        MAPPED_STATUS.put(FunctionalException.class, HttpStatus.BAD_REQUEST);
     }
 }

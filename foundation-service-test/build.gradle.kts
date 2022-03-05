@@ -6,8 +6,6 @@ plugins {
 
 dependencies {
     compileOnly(project(":foundation-application"))
-    // compileOnly(project(":foundation-service"))
-    // api("org.springframework:spring-test")
     api(project(":foundation-commons"))
     api("com.intuit.karate:karate-junit5:1.2.0.RC4")
 

@@ -122,9 +122,11 @@ public class DefaultTokenProvider implements TokenProvider, ClaimsExtractor {
             }
         });
 
+        String liveMode = token.lookupClaim("live", "liveMode").orElse("false");
+
         return Authentication.builder().
             claims(token.getClaims()).
-            liveMode(Objects.equals(token.lookupClaim("live", "liveMode").orElse(null), "true")).
+            liveMode(Boolean.parseBoolean(liveMode.toLowerCase())).
             username(token.getSubject()).
             tenantId(tenant).
             application(token.lookupClaim("applicationName", "application", "applicationId", "app").orElse(null)).
@@ -190,7 +192,33 @@ public class DefaultTokenProvider implements TokenProvider, ClaimsExtractor {
 
             Map<String, Object> claims = new HashMap<>();
             for (Map.Entry<String, Claim> entry : baseClaims.entrySet()) {
-                claims.put(entry.getKey(), entry.getValue().asString());
+                if (entry.getValue().isNull()) {
+                    continue;
+                }
+                Object value = entry.getValue().asString();
+                if (value==null) {
+                    value = entry.getValue().asBoolean();
+                    if (value==null) {
+                        value = entry.getValue().asDouble();
+                        if (value==null) {
+                            value = entry.getValue().asInt();
+                            if (value==null) {
+                                value = entry.getValue().asLong();
+                                if (value==null) {
+                                    value = entry.getValue().asDate();
+                                    if (value==null) {
+                                        value = entry.getValue().asMap();
+                                        if (value==null) {
+                                            LOG.warn("Unsupported claim type '%s', using string.", entry.getKey());
+                                            value = entry.toString();
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                claims.put(entry.getKey(), value);
             }
 
             return claimsExtractor.extractInfo(new Token(token, jwt.getSubject(), claims));

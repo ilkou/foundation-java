@@ -7,7 +7,7 @@ public class ConfigurationException extends RuntimeException implements ManagedE
     private static final long serialVersionUID = 1L;
 
     public ConfigurationException(String message, Object... args) {
-        super(TextUtil.format(message, args));
+        this(null, message, args);
     }
 
     public ConfigurationException(Throwable cause, String message, Object... args) {
@@ -15,7 +15,7 @@ public class ConfigurationException extends RuntimeException implements ManagedE
     }
 
     public ConfigurationException(String message, Throwable cause) {
-        super(message, cause);
+        this(cause, message);
     }
 
 }

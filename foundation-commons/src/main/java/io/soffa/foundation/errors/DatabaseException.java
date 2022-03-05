@@ -9,14 +9,14 @@ public class DatabaseException extends TechnicalException {
     }
 
     public DatabaseException(String messsage, Object... args) {
-        super(messsage, args);
+        this(null, messsage, args);
     }
 
     public DatabaseException(String messsage, Exception e) {
-        super(messsage, e);
+        this(e, messsage);
     }
 
     public DatabaseException(Throwable cause) {
-        super(cause);
+        this(cause, null);
     }
 }

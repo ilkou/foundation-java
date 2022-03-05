@@ -29,9 +29,12 @@ dependencies {
     implementation("org.springdoc:springdoc-openapi-security:1.6.6"){
         exclude(group = "io.github.classgraph")
     }
-    implementation("io.github.classgraph:classgraph:4.8.139")
+    implementation("io.github.classgraph:classgraph:4.8.140")
 
     testImplementation(project(":foundation-service-test"))
+}
+repositories {
+    mavenCentral()
 }
 
 
