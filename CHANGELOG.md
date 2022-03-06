@@ -2,7 +2,7 @@
 
 * SideEffects
 * Improvements and stability
-
+* `JsonUtil` replaced by `Mappers.JSON`
 
 ## 1.10.0 (Mars 04, 2022)  
 
