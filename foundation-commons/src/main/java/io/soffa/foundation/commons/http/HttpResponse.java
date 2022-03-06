@@ -3,7 +3,7 @@ package io.soffa.foundation.commons.http;
 import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.PathNotFoundException;
 import io.soffa.foundation.commons.HttpStatus;
-import io.soffa.foundation.commons.JsonUtil;
+import io.soffa.foundation.commons.Mappers;
 import io.soffa.foundation.commons.TextUtil;
 import lombok.Builder;
 import lombok.Data;
@@ -19,7 +19,7 @@ public class HttpResponse {
     private String body;
 
     public static HttpResponse ok(String contentType, Object body) {
-        return HttpResponse.builder().status(200).contentType(contentType).body(JsonUtil.serialize(body)).build();
+        return HttpResponse.builder().status(200).contentType(contentType).body(Mappers.JSON.serialize(body)).build();
     }
 
     public static HttpResponse notFound() {

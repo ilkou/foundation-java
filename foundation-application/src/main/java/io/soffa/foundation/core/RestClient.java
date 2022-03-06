@@ -1,7 +1,7 @@
 package io.soffa.foundation.core;
 
 
-import io.soffa.foundation.commons.JsonUtil;
+import io.soffa.foundation.commons.Mappers;
 import io.soffa.foundation.commons.http.HttpClient;
 import io.soffa.foundation.commons.http.HttpRequest;
 import io.soffa.foundation.commons.http.HttpResponse;
@@ -54,7 +54,7 @@ public final class RestClient implements InvocationHandler {
 
     public Object parseResponse(HttpResponse response, Method method) {
         if (response.is2xxSuccessful()) {
-            return JsonUtil.deserialize(response.getBody(), method.getReturnType());
+            return Mappers.JSON.deserialize(response.getBody(), method.getReturnType());
         }
         if (response.isForbidden()) {
             throw new ForbiddenException(response.getMessageOrBody());

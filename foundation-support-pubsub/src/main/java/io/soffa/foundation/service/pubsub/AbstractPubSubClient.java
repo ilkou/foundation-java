@@ -64,7 +64,7 @@ public abstract class AbstractPubSubClient implements PubSubClient {
         }
         CallResult response = ObjectUtil.deserialize(data, CallResult.class);
         if (response.isSuccess()) {
-            return JsonUtil.deserialize(response.getData(), responseClass);
+            return Mappers.JSON.deserialize(response.getData(), responseClass);
         } else {
             switch (response.getErrorCode()) {
                 case HttpStatus.UNAUTHORIZED:

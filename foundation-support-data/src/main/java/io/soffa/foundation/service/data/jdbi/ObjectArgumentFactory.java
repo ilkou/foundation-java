@@ -1,7 +1,7 @@
 package io.soffa.foundation.service.data.jdbi;
 
 import io.soffa.foundation.commons.ClassUtil;
-import io.soffa.foundation.commons.ObjectFactory;
+import io.soffa.foundation.commons.Mappers;
 import io.soffa.foundation.core.models.VO;
 import org.jdbi.v3.core.argument.Argument;
 import org.jdbi.v3.core.argument.ArgumentFactory;
@@ -30,7 +30,7 @@ public class ObjectArgumentFactory implements ArgumentFactory.Preparable {
             } else if (value instanceof VO) {
                 statement.setString(position, ((VO) value).getValue());
             } else {
-                String serialized = ObjectFactory.serialize(BeanMapper.MAPPER, value);
+                String serialized = Mappers.JSON_FULLACCESS_SNAKE.serialize( value);
                 statement.setString(position, serialized);
             }
         };

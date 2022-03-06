@@ -1,7 +1,7 @@
 package io.soffa.foundation.service.data.jpa;
 
 
-import io.soffa.foundation.commons.JsonUtil;
+import io.soffa.foundation.commons.Mappers;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
@@ -12,12 +12,12 @@ public class MapConverter implements AttributeConverter<Map<String, Object>, Str
 
     @Override
     public String convertToDatabaseColumn(Map<String, Object> map) {
-        return JsonUtil.serializeIgnoreAccess(map);
+        return Mappers.JSON_FULLACCESS.serialize(map);
     }
 
     @Override
     public Map<String, Object> convertToEntityAttribute(String dbData) {
-        return JsonUtil.toMapFullAccess(dbData);
+        return Mappers.JSON_FULLACCESS.toMap(dbData);
     }
 
 

@@ -1,9 +1,6 @@
 package io.soffa.foundation.service.data.jdbi;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.PropertyNamingStrategies;
-import io.soffa.foundation.commons.JsonUtil;
-import io.soffa.foundation.commons.ObjectFactory;
+import io.soffa.foundation.commons.Mappers;
 import io.soffa.foundation.service.data.EntityInfo;
 import lombok.SneakyThrows;
 import org.jdbi.v3.core.mapper.RowMapper;
@@ -17,11 +14,6 @@ import java.util.Map;
 public final class BeanMapper<T> implements RowMapper<T> {
 
     private final EntityInfo<T> entityInfo;
-    public static final ObjectMapper MAPPER = ObjectFactory.create(true);
-
-    static {
-        MAPPER.setPropertyNamingStrategy(new PropertyNamingStrategies.SnakeCaseStrategy());
-    }
 
     private BeanMapper(EntityInfo<T> entityInfo) {
         this.entityInfo = entityInfo;
@@ -50,16 +42,16 @@ public final class BeanMapper<T> implements RowMapper<T> {
                 continue;
             }
             boolean convertToMap = entityInfo.isCustomTypeOrMap(prop) && value instanceof String;
-            if (convertToMap && JsonUtil.isJson(value.toString())) {
+            if (convertToMap && Mappers.isJson(value.toString())) {
                 if (Map.class.isAssignableFrom(target)) {
-                    value = JsonUtil.deserializeMap(value.toString());
+                    value = Mappers.JSON.deserializeMap(value.toString());
                 }else {
-                    value = ObjectFactory.deserializeMap(MAPPER, value.toString());
+                    value = Mappers.JSON_FULLACCESS_SNAKE.deserializeMap(value.toString());
                 }
             }
             values.put(col, value);
         }
-        return ObjectFactory.convert(MAPPER, values, entityInfo.getEntityClass());
+        return Mappers.JSON_FULLACCESS_SNAKE.convert(values, entityInfo.getEntityClass());
     }
 
     public static <T> BeanMapper<T> of(EntityInfo<T> info) {

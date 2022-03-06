@@ -82,7 +82,7 @@ public class RequestFilter extends OncePerRequestFilter {
                     int statusCode = ErrorUtil.resolveErrorCode(e);
                     if (statusCode > -1) {
                         response.setContentType("application/json");
-                        response.sendError(statusCode, JsonUtil.serialize(ImmutableMap.of(
+                        response.sendError(statusCode, Mappers.JSON.serialize(ImmutableMap.of(
                             "message", e.getMessage()
                         )));
                     } else if (e instanceof AccessDeniedException) {
@@ -108,7 +108,7 @@ public class RequestFilter extends OncePerRequestFilter {
         } finally {
             if (LOG.isDebugEnabled() && context.getSideEffects() != null && !context.getSideEffects().isEmpty()) {
                 LOG.debug("SIDE_EFFECTS");
-                LOG.debug(JsonUtil.prettyPrint(context.getSideEffects()));
+                LOG.debug(Mappers.JSON.prettyPrint(context.getSideEffects()));
             }
             RequestContextHolder.clear();
             TenantHolder.clear();

@@ -30,7 +30,7 @@ dependencies {
         exclude(group = "io.github.classgraph")
     }
     implementation("io.github.classgraph:classgraph:4.8.140")
-
+    implementation("com.h2database:h2:2.1.210")
     testImplementation(project(":foundation-service-test"))
 }
 repositories {

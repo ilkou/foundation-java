@@ -1,8 +1,8 @@
 package io.soffa.foundation.commons.http;
 
 
-import io.soffa.foundation.commons.JsonUtil;
 import io.soffa.foundation.commons.Logger;
+import io.soffa.foundation.commons.Mappers;
 import io.soffa.foundation.commons.TextUtil;
 import lombok.SneakyThrows;
 import okhttp3.*;
@@ -134,7 +134,7 @@ public final class HttpUtil {
             .protocol(Protocol.HTTP_1_1)
             .code(res.getStatus())
             .message("Mocked response")
-            .body(ResponseBody.create(JsonUtil.serialize(res.getBody()), contentType))
+            .body(ResponseBody.create(Mappers.JSON.serialize(res.getBody()), contentType))
             .build();
     }
 

@@ -1,6 +1,6 @@
 package io.soffa.foundation.service.data.jdbi;
 
-import io.soffa.foundation.commons.JsonUtil;
+import io.soffa.foundation.commons.Mappers;
 import org.jdbi.v3.core.argument.AbstractArgumentFactory;
 import org.jdbi.v3.core.argument.Argument;
 import org.jdbi.v3.core.config.ConfigRegistry;
@@ -17,7 +17,7 @@ public class MapArgumentFactory extends AbstractArgumentFactory<Map<String,Objec
     @Override
     protected Argument build(Map<String,Object> value, ConfigRegistry config) {
         return (position, statement, ctx) -> {
-            statement.setString(position, value == null ? null : JsonUtil.serialize(value));
+            statement.setString(position, value == null ? null : Mappers.JSON.serialize(value));
         };
     }
 }

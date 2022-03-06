@@ -16,6 +16,7 @@ dependencies {
     api("org.json:json:20211205")
     api("com.jayway.jsonpath:json-path:2.7.0")
 
+    api("org.glassfish:javax.el:3.0.0")
     api("commons-io:commons-io:2.11.0")
     api("com.squareup.okhttp3:okhttp:4.9.3")
     api("com.konghq:unirest-java:3.13.6")

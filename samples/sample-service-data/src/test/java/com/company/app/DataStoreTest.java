@@ -3,7 +3,7 @@ package com.company.app;
 import com.company.app.gateways.*;
 import com.google.common.collect.ImmutableMap;
 import io.soffa.foundation.commons.IdGenerator;
-import io.soffa.foundation.commons.JsonUtil;
+import io.soffa.foundation.commons.Mappers;
 import io.soffa.foundation.core.data.DB;
 import io.soffa.foundation.core.data.DataStore;
 import io.soffa.foundation.core.data.EntityRepository;
@@ -39,8 +39,8 @@ public class DataStoreTest {
             )),
             new Date()
         );
-        String output = JsonUtil.serializeIgnoreAccess(e);
-        MessageEntity e2 = JsonUtil.deserializeIgnoreAccess(output, MessageEntity.class);
+        String output = Mappers.JSON_FULLACCESS.serialize(e);
+        MessageEntity e2 = Mappers.JSON_FULLACCESS.deserialize(output, MessageEntity.class);
 
         assertNotNull(e2.getPaymentOptions());
         assertNotNull(e2.getPaymentOptions().getMobileMoney());

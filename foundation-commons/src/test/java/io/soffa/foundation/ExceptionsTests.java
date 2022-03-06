@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ExceptionsTests {
-    
+
     private static final String ERROR = "error";
 
     @Test
@@ -33,12 +33,11 @@ public class ExceptionsTests {
         assertEquals(HttpStatus.NOT_FOUND, ErrorUtil.resolveErrorCode(new ResourceNotFoundException(ERROR)));
         assertEquals(HttpStatus.BAD_REQUEST, ErrorUtil.resolveErrorCode(new RetryException(ERROR)));
         assertEquals(HttpStatus.SERVER_ERROR, ErrorUtil.resolveErrorCode(new TechnicalException(ERROR)));
-        assertEquals(HttpStatus.TIMEOUT, ErrorUtil.resolveErrorCode(new TimeoutException(ERROR)));
+        assertEquals(HttpStatus.REQUEST_TIMEOUT, ErrorUtil.resolveErrorCode(new TimeoutException(ERROR)));
         assertEquals(HttpStatus.NOT_IMLEMENTED, ErrorUtil.resolveErrorCode(new TodoException(ERROR)));
         assertEquals(HttpStatus.UNAUTHORIZED, ErrorUtil.resolveErrorCode(new UnauthorizedException(ERROR)));
         assertEquals(HttpStatus.BAD_REQUEST, ErrorUtil.resolveErrorCode(new ValidationException(ERROR)));
     }
-
 
 
 }

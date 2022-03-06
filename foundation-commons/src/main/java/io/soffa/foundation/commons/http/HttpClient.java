@@ -1,6 +1,6 @@
 package io.soffa.foundation.commons.http;
 
-import io.soffa.foundation.commons.JsonUtil;
+import io.soffa.foundation.commons.Mappers;
 import lombok.SneakyThrows;
 import okhttp3.*;
 
@@ -36,7 +36,7 @@ public class HttpClient {
 
 
         if (req.getBody() != null) {
-            body = RequestBody.create(JsonUtil.serialize(req.getBody()), MediaType.parse(req.getContentType()));
+            body = RequestBody.create(Mappers.JSON.serialize(req.getBody()), MediaType.parse(req.getContentType()));
         }
 
         Map<String, String> hds = Optional.ofNullable(req.getHdrs()).orElse(new HashMap<>());
