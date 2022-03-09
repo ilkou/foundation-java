@@ -1,6 +1,6 @@
 spring.application.name: sample
 
-app.package: io.soffa.foundation
+app.package: dev.soffa.foundation
 
 app.openapi:
   info:

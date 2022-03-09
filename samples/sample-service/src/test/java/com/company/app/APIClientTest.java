@@ -2,9 +2,8 @@ package com.company.app;
 
 import com.company.app.core.PingResponse;
 import com.company.app.gateways.API;
-import io.soffa.foundation.core.RequestContext;
-import io.soffa.foundation.core.RestClient;
-import io.soffa.foundation.core.context.DefaultRequestContext;
+import dev.soffa.foundation.client.RestClient;
+import dev.soffa.foundation.context.Context;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class APIClientTest  {
+public class APIClientTest {
 
     @LocalServerPort
     private int port;
@@ -24,10 +23,10 @@ public class APIClientTest  {
     @Test
     public void testAPIClient() {
         API client = RestClient.newInstance(API.class, "http://localhost:" + port);
-        RequestContext context = DefaultRequestContext.create("T1");
-        PingResponse response = client.ping(context);
+        Context ctx = Context.create("T1");
+        PingResponse response = client.ping(ctx);
         assertEquals("PONG", response.getValue());
-        assertEquals("Hello", client.echo("Hello", context));
+        assertEquals("Hello", client.echo("Hello", ctx));
     }
 
 

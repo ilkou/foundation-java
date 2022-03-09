@@ -5,7 +5,7 @@ logging.level.io.leangen: ERROR
 logging.level.ext.springboot: INFO
 logging.level.org.springframework: ${SPRING_LOG_LEVEL:WARN}
 logging.level.liquibase: ERROR
-logging.level.io.soffa: ${PLATFORM_LOG_LEVEL:INFO}
+logging.level.dev.soffa: ${PLATFORM_LOG_LEVEL:INFO}
 logging.level.foundation: ${PLATFORM_LOG_LEVEL:INFO}
 logging.level.app: ${LOG_LEVEL:INFO}
 logging.level.service: ${LOG_LEVEL:INFO}
@@ -78,7 +78,7 @@ spring.jpa:
     ddl-auto: none
     naming:
       #implicit-strategy:
-      physical-strategy: io.soffa.foundation.service.data.CustomPhysicalNamingStrategy
+      physical-strategy: dev.soffa.foundation.data.CustomPhysicalNamingStrategy
 
 spring.liquibase.enabled: false
 
@@ -133,12 +133,12 @@ logging.file.name: ${LOGGING_FILE_NAME:${spring.application.name}.log}
 ---
 spring.config.activate.on-profile: test
 management.health.vault.enabled: false
-logging.level.io.soffa: DEBUG
+logging.level.dev.soffa: DEBUG
 logging.level.foundation: DEBUG
 
 management.endpoint.health:
-    show-components: always
-    health.show-details: always
+  show-components: always
+  health.show-details: always
 
 #---
 #spring.config.activate.on-profile: amqp

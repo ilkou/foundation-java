@@ -5,7 +5,7 @@ plugins {
 }
 
 dependencies {
-    compileOnly(project(":foundation-application"))
+    compileOnly(project(":foundation-core"))
     api(project(":foundation-commons"))
     api("com.intuit.karate:karate-junit5:1.2.0.RC4")
 

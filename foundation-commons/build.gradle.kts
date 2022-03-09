@@ -15,6 +15,7 @@ dependencies {
     api("com.joestelmach:natty:0.13")
     api("org.json:json:20211205")
     api("com.jayway.jsonpath:json-path:2.7.0")
+    api("org.apache.commons:commons-text:1.9")
 
     api("org.glassfish:javax.el:3.0.0")
     api("commons-io:commons-io:2.11.0")
@@ -26,12 +27,14 @@ dependencies {
     implementation("io.pebbletemplates:pebble:3.1.5")
     implementation("com.auth0:java-jwt:3.18.3")
     implementation("com.nimbusds:nimbus-jose-jwt:9.20")
-    api("org.apache.commons:commons-text:1.9")
-    implementation("com.jsoniter:jsoniter:0.9.23")  {
+    implementation("com.aventrix.jnanoid:jnanoid:2.0.0")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.1")
+
+    implementation("com.jsoniter:jsoniter:0.9.23") {
         exclude(group = "com.fasterxml.jackson.core")
         exclude(group = "com.google.code.gson")
     }
-    implementation("com.aventrix.jnanoid:jnanoid:2.0.0")
+
     implementation("com.github.michaelgantman:MgntUtils:1.6.0.1")
     api("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.13.1")
     api("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.1")

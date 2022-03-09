@@ -4,14 +4,14 @@ import com.company.app.core.DoHandleServiceStart;
 import com.company.app.core.Ping;
 import com.company.app.core.PingResponse;
 import com.company.app.operations.SendEmailHandler;
-import io.soffa.foundation.core.context.DefaultRequestContext;
-import io.soffa.foundation.core.messages.Message;
-import io.soffa.foundation.core.messages.MessageFactory;
-import io.soffa.foundation.core.models.EmailAddress;
-import io.soffa.foundation.core.pubsub.PubSubClientFactory;
-import io.soffa.foundation.core.pubsub.PubSubMessenger;
-import io.soffa.foundation.support.email.model.Email;
-import io.soffa.foundation.support.email.model.EmailAck;
+import dev.soffa.foundation.context.Context;
+import dev.soffa.foundation.mail.models.Email;
+import dev.soffa.foundation.mail.models.EmailAck;
+import dev.soffa.foundation.messages.Message;
+import dev.soffa.foundation.messages.MessageFactory;
+import dev.soffa.foundation.models.EmailAddress;
+import dev.soffa.foundation.pubsub.PubSubClientFactory;
+import dev.soffa.foundation.pubsub.PubSubMessenger;
 import lombok.SneakyThrows;
 import org.awaitility.Awaitility;
 import org.junit.jupiter.api.Test;
@@ -65,7 +65,7 @@ public class PubSubTest {
         Awaitility.await().atMost(500, TimeUnit.MILLISECONDS).until(() -> SendEmailHandler.COUNTER.get() == counter.incrementAndGet());
 
         Ping ping = PubSubClientFactory.of(Ping.class, applicationName, messenger);
-        PingResponse resp = ping.handle(new DefaultRequestContext());
+        PingResponse resp = ping.handle(new Context());
         assertEquals("PONG", resp.getValue());
 
         /*

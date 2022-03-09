@@ -1,6 +1,6 @@
 spring.application.name: test
 
-app.package: io.soffa
+app.package: dev.soffa
 app.db:
   tables-prefix:
   datasources:

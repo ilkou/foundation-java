@@ -5,13 +5,14 @@ plugins {
 }
 
 dependencies {
-    api(project(":foundation-application"))
-    api(project(":foundation-commons"))
+    api(project(":foundation-core"))
 
     api("org.springframework.boot:spring-boot-starter-web") {
         exclude(module = "spring-boot-starter-tomcat")
     }
     runtimeOnly("org.springframework.boot:spring-boot-starter-undertow")
+    implementation("org.apache.commons:commons-email:1.5")
+    implementation("com.sendgrid:sendgrid-java:4.8.3")
     implementation("org.springframework.cloud:spring-cloud-starter-consul-discovery")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-validation")
@@ -22,11 +23,11 @@ dependencies {
     implementation("net.logstash.logback:logstash-logback-encoder:7.0.1")
     implementation("org.springframework.cloud:spring-cloud-starter-vault-config")
     implementation("io.micrometer:micrometer-registry-prometheus")
-    implementation("org.springdoc:springdoc-openapi-ui:1.6.6"){
+    implementation("org.springdoc:springdoc-openapi-ui:1.6.6") {
         exclude(group = "io.github.classgraph")
     }
     implementation("org.springdoc:springdoc-openapi-kotlin:1.6.6")
-    implementation("org.springdoc:springdoc-openapi-security:1.6.6"){
+    implementation("org.springdoc:springdoc-openapi-security:1.6.6") {
         exclude(group = "io.github.classgraph")
     }
     implementation("io.github.classgraph:classgraph:4.8.140")

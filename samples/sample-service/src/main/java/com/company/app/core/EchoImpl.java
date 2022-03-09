@@ -1,6 +1,6 @@
 package com.company.app.core;
 
-import io.soffa.foundation.core.RequestContext;
+import dev.soffa.foundation.context.Context;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import javax.inject.Named;
@@ -10,7 +10,7 @@ import javax.inject.Named;
 public class EchoImpl implements Echo {
 
     @Override
-    public String handle(@NonNull String input, @NonNull RequestContext context) {
+    public String handle(@NonNull String input, @NonNull Context ctx) {
         return input;
     }
 

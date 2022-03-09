@@ -4,7 +4,7 @@ import com.company.app.core.Echo;
 import com.company.app.core.Ping;
 import com.company.app.core.PingResponse;
 import com.company.app.core.model.InputData;
-import io.soffa.foundation.core.RequestContext;
+import dev.soffa.foundation.context.Context;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -21,13 +21,13 @@ public class AppController implements API {
 
     @Override
     @GetMapping("ping")
-    public PingResponse ping(RequestContext context) {
+    public PingResponse ping(Context context) {
         return pingOp.handle(context);
     }
 
     @Override
     @PostMapping("echo")
-    public String echo(@RequestBody String input, RequestContext context) {
+    public String echo(@RequestBody String input, Context context) {
         return echoOp.handle(input, context);
     }
 
@@ -35,5 +35,12 @@ public class AppController implements API {
     public String check(@Valid @RequestBody InputData input) {
         return input.getUsername();
     }
+
+    /*
+    @PostMapping("check/{id}")
+    public ResponseEntity<String> check(@PathVariable String id) {
+        return ResponseEntity.created(id);
+    }
+    */
 
 }

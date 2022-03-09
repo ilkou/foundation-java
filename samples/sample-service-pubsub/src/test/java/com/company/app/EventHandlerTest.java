@@ -2,10 +2,10 @@ package com.company.app;
 
 import com.company.app.core.Echo;
 import com.company.app.core.Ping;
-import io.soffa.foundation.core.context.TenantHolder;
-import io.soffa.foundation.core.messages.MessageFactory;
-import io.soffa.foundation.core.metrics.MetricsRegistry;
-import io.soffa.foundation.core.pubsub.MessageHandler;
+import dev.soffa.foundation.messages.MessageFactory;
+import dev.soffa.foundation.metrics.MetricsRegistry;
+import dev.soffa.foundation.multitenancy.TenantHolder;
+import dev.soffa.foundation.pubsub.MessageHandler;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

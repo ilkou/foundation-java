@@ -1,8 +1,8 @@
 package com.company.app;
 
 import com.google.common.collect.ImmutableMap;
-import io.soffa.foundation.commons.IdGenerator;
-import io.soffa.foundation.test.HttpExpect;
+import dev.soffa.foundation.commons.IdGenerator;
+import dev.soffa.foundation.test.spring.HttpExpect;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -13,7 +13,7 @@ import org.springframework.test.web.servlet.MockMvc;
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-public class ApplicationTest   {
+public class ApplicationTest {
 
     public static final String F_USERNAME = "username";
     public static final String F_PASSWORD = "password";
@@ -134,6 +134,8 @@ public class ApplicationTest   {
                 F_PASSWORD, "P4ssw0rd"
             )).
             expect().isOK();
+
+        //test.post(CHECK_URI + "/1234").expect().isOK();
     }
 
 
