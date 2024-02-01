@@ -53,4 +53,3 @@ jobs:
             -Psigning.keyId=$SIGNING_KEYID  \
             -Psigning.password=$SIGNING_PASSWORD \
             -Psigning.secretKeyRingFile=$HOME/.sonatype-keys.gpg
-
