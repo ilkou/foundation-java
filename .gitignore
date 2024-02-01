@@ -37,3 +37,4 @@ out/
 .vscode/
 config/qa/pmd.xml
 *.log
+.DS_Store
