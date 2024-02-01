@@ -2,7 +2,7 @@ name: release
 
 on:
   push:
-    branches: [ main ]
+    branches: [ legacy ]
 
 env:
   SONATYPE_USERNAME: ${{ secrets.OSSRH_USERNAME }}
