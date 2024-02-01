@@ -1,3 +1,7 @@
+## 1.11.0 (Feb 01, 2024)  
+
+* Make it possible to disable migrations (DB_MIGRATION_DISABLED)
+
 ## 1.10.1 (Mars 05, 2022)  
 
 * SideEffects
