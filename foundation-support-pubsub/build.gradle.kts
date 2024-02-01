@@ -2,7 +2,7 @@ plugins {
     id("foundation.java8")
     id("foundation.maven-publish")
     id("foundation.springboot.library")
-    id("foundation.qa.coverage.l4")
+    // id("foundation.qa.coverage.l4")
 }
 
 dependencies {

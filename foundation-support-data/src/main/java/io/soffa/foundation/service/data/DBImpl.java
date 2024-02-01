@@ -147,9 +147,16 @@ public final class DBImpl extends AbstractDataSource implements ApplicationListe
             DataSource ds = DBHelper.createDataSource(DataSourceProperties.create(appConfig.getName(), id, url), config);
             DatasourceInfo di = new DatasourceInfo(id, config, ds);
             // di.configureTx(entityManagerFactoryBuilder, appConfig.getPkg());
+
+            boolean isMigrationEnabled = Boolean.parseBoolean(System.getenv("DB_MIGRATION_ENABLED"));
             registry.put(sourceId, di);
             if (migrate) {
-                applyMigrations(id);
+                if (isMigrationEnabled) {
+                    LOG.info("********* DB migration is enabled ********* ");
+                    applyMigrations(id);
+                } else {
+                    LOG.info("********* DB migration is disabled ********* ");
+                }
             }
         }
     }
