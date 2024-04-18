@@ -13,6 +13,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.core.env.Profiles;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -42,21 +43,17 @@ class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
         this.environment = environment;
     }
 
-    @NonNull
     @Override
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(@NonNull MethodArgumentNotValidException ex,
-                                                                  @NonNull HttpHeaders headers,
-                                                                  @NonNull HttpStatus status,
-                                                                  @NonNull WebRequest request) {
-
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         return handleGlobalErrors(ex);
     }
+
 
     @ExceptionHandler({UndeclaredThrowableException.class, Throwable.class, Exception.class, TechnicalException.class, FunctionalException.class})
     public ResponseEntity<Object> handleGlobalErrors(Throwable ex) {
         boolean isProduction = environment.acceptsProfiles(Profiles.of("prod", "production"));
         Throwable error = ErrorUtil.unwrap(ex);
-        HttpStatus status = deriveStatus(error);
+        HttpStatusCode status = deriveStatus(error);
         String message = ErrorUtil.loookupOriginalMessage(error);
 
         Map<String, Object> body = new LinkedHashMap<>();
@@ -89,7 +86,7 @@ class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(status).body(body);
     }
 
-    private HttpStatus deriveStatus(Throwable exception) {
+    private HttpStatusCode deriveStatus(Throwable exception) {
         int code = ErrorUtil.resolveErrorCode(exception);
         if (code > -1) {
             return HttpStatus.valueOf(code);
@@ -108,7 +105,7 @@ class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
             return HttpStatus.NOT_IMPLEMENTED;
         }
         if (exception instanceof ResponseStatusException) {
-            return ((ResponseStatusException) exception).getStatus();
+            return ((ResponseStatusException) exception).getStatusCode();
         }
         return HttpStatus.INTERNAL_SERVER_ERROR;
     }

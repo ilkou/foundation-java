@@ -90,7 +90,7 @@ public final class TokenUtil {
         if (json.has("keys")) {
             json = json.getJSONArray("keys").getJSONObject(0);
         }
-        JWK jwk = JWK.parse(new net.minidev.json.JSONObject(json.toMap()));
+        JWK jwk = JWK.parse(json.toMap());
         RSAKey rsaJWK = jwk.toRSAKey();
         JWSSigner signer = new RSASSASigner(rsaJWK);
         Date issuedAt = new Date();

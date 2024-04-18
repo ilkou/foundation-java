@@ -8,17 +8,19 @@ import io.soffa.foundation.core.context.RequestContextHolder;
 import io.soffa.foundation.core.context.TenantHolder;
 import io.soffa.foundation.core.security.PlatformAuthManager;
 import io.soffa.foundation.errors.ErrorUtil;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import lombok.SneakyThrows;
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import javax.servlet.FilterChain;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
@@ -39,7 +41,7 @@ public class RequestFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request,
                                     @NonNull HttpServletResponse response,
-                                    @NonNull FilterChain chain) {
+                                    @NonNull FilterChain chain) throws ServletException, IOException {
 
         if (LOG.isDebugEnabled()) {
             LOG.debug("===================== Serving request: %s %s =====================", request.getMethod(), request.getRequestURI());
@@ -161,5 +163,6 @@ public class RequestFilter extends OncePerRequestFilter {
         }
         return Optional.empty();
     }
+
 
 }

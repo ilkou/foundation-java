@@ -1,7 +1,8 @@
 plugins {
-    id("foundation.java8")
-    id("foundation.maven-publish")
-    id("foundation.test.junit5")
+    //id("soffa.java17")
+    id("soffa.lombok")
+    id("soffa.maven-publish")
+    id("soffa.test.junit5")
     // id("foundation.qa.coverage.l5")
 }
 
@@ -14,9 +15,9 @@ dependencies {
     api("io.swagger.core.v3:swagger-annotations:2.1.13")
     api("io.swagger.core.v3:swagger-models:2.1.13")
     api("javax.ws.rs:javax.ws.rs-api:2.1.1")
-    api("com.fasterxml.jackson.core:jackson-annotations:2.13.1")
-    api("com.fasterxml.jackson.core:jackson-databind:2.13.1")
-    api("commons-validator:commons-validator:1.7")
+    api("com.fasterxml.jackson.core:jackson-annotations:2.17.0")
+    api("com.fasterxml.jackson.core:jackson-databind:2.17.0")
+    api("commons-validator:commons-validator:1.8.0")
 
 }
 

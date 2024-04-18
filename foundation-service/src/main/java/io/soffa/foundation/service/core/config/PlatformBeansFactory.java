@@ -107,5 +107,4 @@ public class PlatformBeansFactory {
         return new MetricsRegistryImpl(registry);
     }
 
-
 }

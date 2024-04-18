@@ -1,7 +1,7 @@
 plugins {
-    id("foundation.java8")
-    id("foundation.maven-publish")
-    id("foundation.springboot.library")
+    id("soffa.lombok")
+    id("soffa.maven-publish")
+    id("soffa.springboot.library")
 }
 
 dependencies {
@@ -18,21 +18,22 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-aop")
     implementation("org.springframework:spring-tx")
-    implementation("org.springframework.cloud:spring-cloud-starter-sleuth")
-    implementation("net.logstash.logback:logstash-logback-encoder:7.0.1")
+    //implementation("org.springframework.cloud:spring-cloud-starter-sleuth")
+    //implementation("net.logstash.logback:logstash-logback-encoder:7.0.1")
     implementation("org.springframework.cloud:spring-cloud-starter-vault-config")
     implementation("io.micrometer:micrometer-registry-prometheus")
-    implementation("org.springdoc:springdoc-openapi-ui:1.6.6"){
+    implementation("org.springdoc:springdoc-openapi-ui:1.8.0") {
         exclude(group = "io.github.classgraph")
     }
-    implementation("org.springdoc:springdoc-openapi-kotlin:1.6.6")
-    implementation("org.springdoc:springdoc-openapi-security:1.6.6"){
+    implementation("org.springdoc:springdoc-openapi-kotlin:1.8.0")
+    implementation("org.springdoc:springdoc-openapi-security:1.8.0") {
         exclude(group = "io.github.classgraph")
     }
-    implementation("io.github.classgraph:classgraph:4.8.140")
-    implementation("com.h2database:h2:2.1.210")
+    implementation("io.github.classgraph:classgraph:4.8.170")
     testImplementation(project(":foundation-service-test"))
+
 }
+
 repositories {
     mavenCentral()
 }

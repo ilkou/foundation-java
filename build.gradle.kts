@@ -2,8 +2,6 @@ plugins {
     idea
 }
 
-ext["caffeine.version"] = "2.9.3"
-
 buildscript {
     repositories {
         mavenLocal()
@@ -13,16 +11,16 @@ buildscript {
         }
     }
     dependencies {
-        classpath("io.soffa.foundation:foundation-gradle-plugin:1.0.2")
+        classpath("io.soffa.gradle:soffa-gradle-plugin:2.3.0")
     }
 }
 
 
-apply(plugin = "foundation.sonatype-legacy-publish")
+apply(plugin = "soffa.sonatype-legacy-publish")
 
 allprojects {
-    apply(plugin = "foundation.default-repositories")
-    apply(plugin = "foundation.java8")
+    apply(plugin = "soffa.default-repositories")
+    apply(plugin = "soffa.java17")
 }
 
 tasks.withType<Test>().configureEach {

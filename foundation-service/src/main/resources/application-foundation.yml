@@ -11,8 +11,6 @@ logging.level.app: ${LOG_LEVEL:INFO}
 logging.level.service: ${LOG_LEVEL:INFO}
 
 
-#
-
 spring.jackson:
   default-property-inclusion: non_empty
   #property-naming-strategy: com.fasterxml.jackson.databind.PropertyNamingStrategy.SnakeCaseStrategy
@@ -29,8 +27,6 @@ server:
 
 management:
   endpoints.web.exposure.include: "info,health,prometheus,metrics,refresh"
-  metrics.export:
-    simple.enabled: true
   health.diskspace.enabled: true
   health.db.enabled: true
   health.rabbit.enabled: true
@@ -38,6 +34,8 @@ management:
   endpoint:
     health.show-components: when-authorized
     health.show-details: when-authorized
+  simple:
+    metrics.export.enabled: true
 
 spring.groovy.template.check-template-location: false
 
