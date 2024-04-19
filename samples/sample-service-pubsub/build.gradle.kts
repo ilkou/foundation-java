@@ -1,6 +1,7 @@
 plugins {
-    id("foundation.java8")
-    id("foundation.springboot")
+    id("soffa.java17")
+    id("soffa.lombok")
+    id("soffa.springboot")
     // id("foundation.qa.coverage.l1")
 }
 

@@ -49,8 +49,7 @@ public class SecurityConfig {
         //TODO: use openApiAccess to give correct access
         http
             .authorizeHttpRequests((requests) -> requests
-                .requestMatchers("/v3/api-docs").permitAll()
-                .requestMatchers("/swagger/*").permitAll()
+                .requestMatchers("/v3/**", "/swagger/*").permitAll()
                 .requestMatchers("/actuator/**").permitAll()
                 .requestMatchers("/**").permitAll()
                 .anyRequest()

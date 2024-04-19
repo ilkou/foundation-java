@@ -10,9 +10,9 @@ import io.soffa.foundation.errors.TechnicalException;
 import lombok.Getter;
 import org.apache.commons.lang3.reflect.FieldUtils;
 
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.*;

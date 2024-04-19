@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.soffa.foundation.core.models.VO;
 import lombok.Value;
 
-import javax.persistence.Column;
+import jakarta.persistence.Column;
 
 @Value
 public class MessageId implements VO {

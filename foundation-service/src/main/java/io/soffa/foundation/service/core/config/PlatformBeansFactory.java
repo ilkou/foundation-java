@@ -13,8 +13,8 @@ import io.soffa.foundation.core.operation.OperationsMapping;
 import io.soffa.foundation.core.security.AuthManager;
 import io.soffa.foundation.errors.ConfigurationException;
 import io.soffa.foundation.errors.ErrorUtil;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.models.OpenAPI;
-import org.springdoc.core.SpringDocUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -32,6 +32,7 @@ import java.util.Map;
 import java.util.Set;
 
 @Configuration
+@OpenAPIDefinition
 public class PlatformBeansFactory {
 
     @Bean
@@ -95,8 +96,7 @@ public class PlatformBeansFactory {
 
     @Bean
     public OpenAPI createOpenAPI(AppConfig appConfig) {
-        SpringDocUtils.getConfig().addRequestWrapperToIgnore(RequestContext.class);
-
+        //SpringDocUtils.getConfig().addRequestWrapperToIgnore(RequestContext.class);
         OpenApiBuilder builder = new OpenApiBuilder(appConfig.getOpenapi());
         return builder.build();
     }
