@@ -5,7 +5,7 @@ import io.soffa.foundation.core.messages.Message;
 import lombok.SneakyThrows;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import java.util.concurrent.CompletableFuture;
 
 public interface PubSubClient {

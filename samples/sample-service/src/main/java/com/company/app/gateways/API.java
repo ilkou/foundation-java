@@ -8,8 +8,8 @@ import io.soffa.foundation.core.RequestContext;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
+import jakarta.ws.rs.Path;
 
-import javax.ws.rs.Path;
 
 @Tags(
     @Tag(name = "app", description = "Value application tag")

@@ -7,7 +7,7 @@ import io.soffa.foundation.core.pubsub.PubSubClient;
 import io.soffa.foundation.core.pubsub.PubSubMessenger;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 

@@ -3,10 +3,10 @@ package io.soffa.foundation.core.openapi;
 import io.soffa.foundation.commons.TextUtil;
 import io.soffa.foundation.errors.TechnicalException;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.ws.rs.Path;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import javax.ws.rs.Path;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;

@@ -8,9 +8,9 @@ dependencies {
     api(project(":foundation-api"))
     api(project(":foundation-commons"))
     api("javax.inject:javax.inject:1")
-    api("javax.transaction:javax.transaction-api:1.3")
+    api("jakarta.transaction:jakarta.transaction-api:2.0.1")
     api("com.github.ben-manes.caffeine:caffeine:3.1.8")
-    compileOnly("org.springframework.boot:spring-boot-autoconfigure:2.7.18")
+    compileOnly("org.springframework.boot:spring-boot-autoconfigure:3.2.4")
 
 }
 repositories {

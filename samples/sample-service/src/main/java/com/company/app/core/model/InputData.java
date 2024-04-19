@@ -3,17 +3,20 @@ package com.company.app.core.model;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 
 @Getter
 @Setter
 public class InputData {
 
-    @NotEmpty(message = "Please enter a username")
+    @NotNull(message = "username is required")
+    @NotEmpty(message = "username is required")
     private String username;
 
-    @NotEmpty(message = "Please enter a password")
+    @NotNull(message = "password is required")
+    @NotEmpty(message = "password is required")
     private String password;
 
 }

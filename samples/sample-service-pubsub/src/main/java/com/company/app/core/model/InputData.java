@@ -3,7 +3,7 @@ package com.company.app.core.model;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotEmpty;
 
 
 @Getter
