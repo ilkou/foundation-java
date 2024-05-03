@@ -5,7 +5,6 @@ import io.soffa.foundation.commons.Logger;
 import io.soffa.foundation.commons.TextUtil;
 import io.soffa.foundation.core.AppConfig;
 import io.soffa.foundation.core.Operation;
-import io.soffa.foundation.core.RequestContext;
 import io.soffa.foundation.core.context.DefaultRequestContext;
 import io.soffa.foundation.core.metrics.MetricsRegistry;
 import io.soffa.foundation.core.openapi.OpenApiBuilder;

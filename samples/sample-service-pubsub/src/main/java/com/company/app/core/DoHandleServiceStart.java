@@ -3,9 +3,9 @@ package com.company.app.core;
 import io.soffa.foundation.core.RequestContext;
 import io.soffa.foundation.core.events.OnServiceStarted;
 import io.soffa.foundation.core.events.ServiceInfo;
+import jakarta.inject.Named;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
-import javax.inject.Named;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 @Named

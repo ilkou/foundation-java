@@ -2,10 +2,10 @@ package io.soffa.foundation.core.pubsub;
 
 
 import io.soffa.foundation.core.messages.Message;
+import jakarta.validation.constraints.NotNull;
 import lombok.SneakyThrows;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
-import jakarta.validation.constraints.NotNull;
 import java.util.concurrent.CompletableFuture;
 
 public interface PubSubClient {

@@ -5,7 +5,6 @@ import io.soffa.foundation.core.context.RequestContextHolder;
 import io.soffa.foundation.errors.ErrorUtil;
 import io.soffa.foundation.errors.FunctionalException;
 import io.soffa.foundation.errors.TechnicalException;
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;

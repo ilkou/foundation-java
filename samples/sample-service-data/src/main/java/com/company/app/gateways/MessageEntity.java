@@ -2,9 +2,9 @@ package com.company.app.gateways;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.soffa.foundation.service.data.jpa.MapConverter;
+import jakarta.persistence.*;
 import lombok.*;
 
-import jakarta.persistence.*;
 import java.util.Date;
 import java.util.Map;
 

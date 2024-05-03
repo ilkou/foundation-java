@@ -7,12 +7,12 @@ import io.soffa.foundation.commons.StringUtil;
 import io.soffa.foundation.commons.TextUtil;
 import io.soffa.foundation.errors.ConfigurationException;
 import io.soffa.foundation.errors.TechnicalException;
-import lombok.Getter;
-import org.apache.commons.lang3.reflect.FieldUtils;
-
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
+import lombok.Getter;
+import org.apache.commons.lang3.reflect.FieldUtils;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.*;

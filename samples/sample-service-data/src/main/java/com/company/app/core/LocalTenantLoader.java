@@ -2,8 +2,8 @@ package com.company.app.core;
 
 import com.google.common.collect.ImmutableSet;
 import io.soffa.foundation.core.TenantsLoader;
+import jakarta.inject.Named;
 
-import javax.inject.Named;
 import java.util.Set;
 
 @Named

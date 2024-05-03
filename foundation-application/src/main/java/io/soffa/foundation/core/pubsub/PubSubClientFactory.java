@@ -4,9 +4,9 @@ import io.soffa.foundation.commons.ClassUtil;
 import io.soffa.foundation.core.Operation;
 import io.soffa.foundation.core.RequestContext;
 import io.soffa.foundation.core.messages.Message;
+import jakarta.validation.constraints.NotNull;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
-import jakarta.validation.constraints.NotNull;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 

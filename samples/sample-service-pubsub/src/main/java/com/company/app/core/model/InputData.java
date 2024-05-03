@@ -1,9 +1,8 @@
 package com.company.app.core.model;
 
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.Setter;
-
-import jakarta.validation.constraints.NotEmpty;
 
 
 @Getter

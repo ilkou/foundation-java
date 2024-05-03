@@ -5,11 +5,10 @@ import com.company.app.core.Ping;
 import com.company.app.core.PingResponse;
 import com.company.app.core.model.InputData;
 import io.soffa.foundation.core.RequestContext;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-
-import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)

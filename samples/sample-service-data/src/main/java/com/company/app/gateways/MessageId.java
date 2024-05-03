@@ -2,9 +2,8 @@ package com.company.app.gateways;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.soffa.foundation.core.models.VO;
-import lombok.Value;
-
 import jakarta.persistence.Column;
+import lombok.Value;
 
 @Value
 public class MessageId implements VO {
