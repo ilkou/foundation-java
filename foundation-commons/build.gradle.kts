@@ -1,9 +1,8 @@
 plugins {
-    //id("soffa.java8")
     id("soffa.lombok")
     id("soffa.maven-publish")
     id("soffa.test.junit5")
-    // id("foundation.qa.coverage.l1")
+    id("soffa.qa.coverage.l1")
 }
 
 dependencies {

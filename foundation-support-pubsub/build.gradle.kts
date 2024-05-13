@@ -2,7 +2,7 @@ plugins {
     id("soffa.lombok")
     id("soffa.maven-publish")
     id("soffa.springboot.library")
-    // id("foundation.qa.coverage.l4")
+    //id("soffa.qa.coverage.l4")
 }
 
 dependencies {
