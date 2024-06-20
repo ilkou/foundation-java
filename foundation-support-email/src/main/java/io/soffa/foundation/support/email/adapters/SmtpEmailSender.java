@@ -40,6 +40,8 @@ public class SmtpEmailSender implements EmailSender {
         email.setHostName(config.getHostname()); // ERROR
         email.setSmtpPort(config.getPort());
         email.setStartTLSEnabled(config.isTls());
+        email.setCharset(message.getCharset());
+
         if (config.hasCredentials()) {
             email.setAuthenticator(new DefaultAuthenticator(
                 config.getUsername(),

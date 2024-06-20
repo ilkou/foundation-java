@@ -25,6 +25,7 @@ public class Email {
     private String textMessage;
     private String htmlMessage;
     private List<Attachment> attachments;
+    private String charset = "UTF-8";
 
     public Email(String subjet, EmailAddress sender, List<EmailAddress> to, String textMessage, String htmlMessage) {
         this.subject = subjet;
