@@ -11,13 +11,13 @@ import org.springframework.test.web.servlet.MockMvc;
 @ActiveProfiles("test")
 @SpringBootTest(properties = {"app.openapi.access=authenticated"})
 @AutoConfigureMockMvc
-public class SecureOpenApiTest {
+class SecureOpenApiTest {
 
     @Autowired
     private MockMvc mvc;
 
     @Test
-    public void testOpenAPI() {
+    void testOpenAPI() {
         HttpExpect test = new HttpExpect(mvc);
         test.get("/v3/api-docs")
             .expect().isForbidden();

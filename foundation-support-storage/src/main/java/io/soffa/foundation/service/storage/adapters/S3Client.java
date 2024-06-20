@@ -18,6 +18,7 @@ import io.soffa.foundation.service.storage.ObjectStorageClient;
 import io.soffa.foundation.service.storage.model.ObjectStorageConfig;
 import lombok.SneakyThrows;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.io.InputStream;
@@ -30,36 +31,22 @@ public class S3Client implements ObjectStorageClient {
 
     private static final Logger LOG = Logger.get(S3Client.class);
     private final AmazonS3 client;
-    private String defaultBucketName;
+    private final String defaultBucketName;
 
-    public S3Client(String endpoint, String accessKey, String secretKey, String defaultBucketName) {
-        this(endpoint, accessKey, secretKey);
-        this.defaultBucketName = defaultBucketName;
-    }
-
-    public S3Client(ObjectStorageConfig config) {
-        this(config.getEndpoint(), config.getAccessKey(), config.getSecretKey(), config.getBucket());
-    }
-
-    @SneakyThrows
-    public S3Client(String endpoint, String accessKey, String secretKey) {
+    public S3Client(ObjectStorageConfig cfg) {
         try {
-            AWSCredentials credentials = new BasicAWSCredentials(accessKey, secretKey);
-            //HttpProxyConfig proxyConfig = HttpProxyConfig.getProxy();
+            this.defaultBucketName = cfg.getBucket();
+            AWSCredentials credentials = new BasicAWSCredentials(cfg.getAccessKey(), cfg.getSecretKey());
             ClientConfiguration config = new ClientConfiguration();
             config.setSignerOverride("AWSS3V4SignerType");
-			/*if (proxyConfig != null) {
-				config.setProtocol(Protocol.HTTP);
-				config.setProxyHost(proxyConfig.getProxyHost());
-				config.setProxyPort(proxyConfig.getProxyPort());
-				config.setProxyDomain(proxyConfig.getProxyDomain());
-				config.setProxyUsername(proxyConfig.getProxyUsername());
-				config.setProxyPassword(proxyConfig.getProxyPassword());
-			}*/
-            LOG.info("S3 Endpoint is: %s", endpoint);
+            String region = cfg.getRegion();
+            if (StringUtils.isEmpty(region) || StringUtils.isBlank(region)) {
+                region = Regions.US_EAST_1.name();
+            }
+            LOG.info("S3 Endpoint is: %s", cfg.getEndpoint());
             client = AmazonS3ClientBuilder.standard()
                 .withEndpointConfiguration(
-                    new AwsClientBuilder.EndpointConfiguration(endpoint, Regions.US_EAST_1.name()))
+                    new AwsClientBuilder.EndpointConfiguration(cfg.getEndpoint(), region))
                 .withClientConfiguration(config).enablePathStyleAccess()
                 .withCredentials(new AWSStaticCredentialsProvider(credentials)).build();
 
@@ -67,6 +54,7 @@ public class S3Client implements ObjectStorageClient {
             throw new TechnicalException("S3_CLIENT_INIT_ERR", e);
         }
     }
+
 
     @Override
     public void upload(InputStream source, String objectName, String contentType) {

@@ -11,13 +11,13 @@ import org.springframework.test.web.servlet.MockMvc;
 @ActiveProfiles("test")
 @SpringBootTest(properties = {"app.redoc.enabled=false"})
 @AutoConfigureMockMvc
-public class DisableRedocControllerTest {
+class DisableRedocControllerTest {
 
     @Autowired
     private MockMvc mvc;
 
     @Test
-    public void homepageShouldReturn404WhenRedocIsDisabled() {
+    void homepageShouldReturn404WhenRedocIsDisabled() {
         HttpExpect test = new HttpExpect(mvc);
         test.get("/").expect().is4xxClientError();
     }

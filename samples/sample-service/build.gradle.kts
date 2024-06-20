@@ -3,6 +3,7 @@ plugins {
     id("soffa.lombok")
     id("soffa.springboot")
     id("soffa.qa.coverage.l6")
+    id("soffa.qa.pmd")
 }
 
 dependencies {

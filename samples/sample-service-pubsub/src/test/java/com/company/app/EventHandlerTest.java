@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 @ActiveProfiles("test")
-public class EventHandlerTest {
+class EventHandlerTest {
 
     @Autowired
     private MessageHandler handler;
@@ -28,7 +28,7 @@ public class EventHandlerTest {
     }
 
     @Test
-    public void testEventsHandler() {
+    void testEventsHandler() {
         String ping = Ping.class.getName();
         String echo = Echo.class.getName();
 

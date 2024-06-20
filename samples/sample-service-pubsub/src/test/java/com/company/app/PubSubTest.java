@@ -28,7 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 @ActiveProfiles("test")
-public class PubSubTest {
+class PubSubTest {
 
     @Value("${spring.application.name}")
     private String applicationName;
@@ -38,7 +38,7 @@ public class PubSubTest {
 
     @SneakyThrows
     @Test
-    public void testPubSub() {
+    void testPubSub() {
         assertNotNull(messenger);
         // Awaitility.await().atMost(3, TimeUnit.SECONDS).until(() -> pubSubClient.isReady());
 

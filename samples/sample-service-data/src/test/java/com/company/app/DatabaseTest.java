@@ -11,13 +11,13 @@ import java.util.concurrent.TimeUnit;
 
 @SpringBootTest
 @ActiveProfiles("test")
-public class DatabaseTest {
+class DatabaseTest {
 
     @Autowired
     private DB db;
 
     @Test
-    public void testTenantsProvisioning() {
+    void testTenantsProvisioning() {
         Awaitility.await().atMost(500, TimeUnit.MILLISECONDS).until(() -> db.tenantExists("tx001"));
     }
 

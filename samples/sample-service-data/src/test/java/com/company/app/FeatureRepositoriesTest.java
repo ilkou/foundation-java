@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @ActiveProfiles("test")
-public class FeatureRepositoriesTest {
+class FeatureRepositoriesTest {
 
     @Autowired
     private PendingJobRepository pendingJobs;
@@ -26,7 +26,7 @@ public class FeatureRepositoriesTest {
     public static final String ACCOUNT_ID = "123456789";
 
     @Test
-    public void testPendingJobs() {
+    void testPendingJobs() {
         assertNotNull(pendingJobs);
         assertEquals(0, pendingJobs.count());
 
@@ -56,7 +56,7 @@ public class FeatureRepositoriesTest {
 
 
     @Test
-    public void testJournal() {
+    void testJournal() {
         assertNotNull(journal);
         assertEquals(0, journal.count());
         Journal record = Journal.builder()

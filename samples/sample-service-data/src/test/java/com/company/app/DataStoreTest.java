@@ -19,13 +19,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @ActiveProfiles("test")
-public class DataStoreTest {
+class DataStoreTest {
 
     @Autowired
     private DB db;
 
     @Test
-    public void testSerialization() {
+    void testSerialization() {
         MessageEntity e = new MessageEntity(
             new MessageId(IdGenerator.shortUUID("msg_")),
             IdGenerator.shortUUID("req_"),
@@ -47,7 +47,7 @@ public class DataStoreTest {
     }
 
     @Test
-    public void testEntityRepository() {
+    void testEntityRepository() {
         DataStore repo = db.newStore();
         long initialCount = repo.count(MessageEntity.class);
         assertTrue(initialCount >= 0);

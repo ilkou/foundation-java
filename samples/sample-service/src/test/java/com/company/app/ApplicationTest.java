@@ -13,17 +13,17 @@ import org.springframework.test.web.servlet.MockMvc;
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-public class ApplicationTest   {
+class ApplicationTest {
 
-    public static final String F_USERNAME = "username";
-    public static final String F_PASSWORD = "password";
-    public static final String CHECK_URI = "/check";
+    static final String F_USERNAME = "username";
+    static final String F_PASSWORD = "password";
+    static final String CHECK_URI = "/check";
 
     @Autowired
     private MockMvc mvc;
 
     @Test
-    public void testActuator() {
+    void testActuator() {
         HttpExpect test = new HttpExpect(mvc);
         test.get("/actuator/health")
             .header("Access-Control-Request-Method", "GET")
@@ -42,7 +42,7 @@ public class ApplicationTest   {
     }
 
     @Test
-    public void testController() {
+    void testController() {
         HttpExpect test = new HttpExpect(mvc);
         test.get("/ping").
             header("X-Application", "TestApp").
@@ -60,21 +60,21 @@ public class ApplicationTest   {
     }
 
     @Test
-    public void testOpenAPI() {
+    void testOpenAPI() {
         HttpExpect test = new HttpExpect(mvc);
         test.get("/v3/api-docs")
             .expect().isOK();
     }
 
     @Test
-    public void testRedocController() {
+    void testRedocController() {
         HttpExpect test = new HttpExpect(mvc);
         test.get("/")
             .expect().isOK();
     }
 
     @Test
-    public void testCustomRestExceptionHandler() {
+    void testCustomRestExceptionHandler() {
         HttpExpect test = new HttpExpect(mvc);
         test.get("/ping").
             header("X-Application", "TestApp").
@@ -93,7 +93,7 @@ public class ApplicationTest   {
     }
 
     @Test
-    public void testValidation() {
+    void testValidation() {
         HttpExpect test = new HttpExpect(mvc);
 
         test.post(CHECK_URI).

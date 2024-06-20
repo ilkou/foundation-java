@@ -10,14 +10,14 @@ import org.springframework.test.context.ActiveProfiles;
 
 @ActiveProfiles("test")
 @SpringBootTest(properties = {"app.pubsub.enabled=false"})
-public class NoPubSubMessengerTest {
+class NoPubSubMessengerTest {
 
     @Autowired(required = false)
     private PubSubMessenger messenger;
 
     @SneakyThrows
     @Test
-    public void testConfiguration() {
+    void testConfiguration() {
         Assertions.assertNull(messenger);
     }
 

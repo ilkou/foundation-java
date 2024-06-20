@@ -11,13 +11,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 @ActiveProfiles("test")
-public class MessageRepositoryTest {
+class MessageRepositoryTest {
 
     @Autowired
     private MessageRepository messages;
 
     @Test
-    public void testConfig() {
+    void testConfig() {
         TenantHolder.set("T1");
         assertTrue(messages.count() >= 0);
         TenantHolder.set("T2");
